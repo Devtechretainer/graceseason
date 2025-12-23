@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
 import { motion, useInView } from "framer-motion"
-import BounceCards from "@/components/BounceCards"
+import CircularGallery from "@/components/CircularGallery"
 
 // Animation variants for scroll-triggered animations
 const fadeInUp = {
@@ -600,7 +600,7 @@ export default function Home() {
           </section>
         </AnimatedSection>
 
-        {/* The Cross Collection - BounceCards Section at Bottom */}
+        {/* The Cross Collection - CircularGallery Section at Bottom */}
         <AnimatedSection>
           <section className="py-16 md:py-24 bg-gradient-to-b from-background to-secondary/30 overflow-hidden">
             <div className="container px-4 md:px-6">
@@ -627,16 +627,12 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="flex justify-center items-center mb-12"
               >
-                <BounceCards
-                  className="custom-bounceCards"
-                  images={crossImages}
-                  containerWidth={800}
-                  containerHeight={400}
-                  animationDelay={0.5}
-                  animationStagger={0.08}
-                  easeType="elastic.out(1, 0.5)"
-                  transformStyles={crossTransformStyles}
-                  enableHover={true}
+                <CircularGallery 
+                  items={crossGalleryItems}
+                  bend={3}
+                  textColor="#ffffff"
+                  borderRadius={0.05}
+                  scrollEase={0.02}
                 />
               </motion.div>
 
