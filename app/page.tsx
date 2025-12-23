@@ -73,12 +73,12 @@ export default function Home() {
           <CarouselContent className="h-screen md:h-screen">
             {heroImages.map((img, index) => (
               <CarouselItem key={index} className="h-screen p-0">
-                <div className="relative w-full h-full bg-black">
+                <div className="relative w-full h-[120vh] md:h-screen bg-black -mt-[10vh] md:mt-0">
                   <Image
                     src={img}
                     alt={`Grace Season Collection ${index + 1}`}
                     fill
-                    className="object-contain md:object-cover object-center"
+                    className="object-cover object-center"
                     priority={index === 0}
                     sizes="100vw"
                     quality={90}
@@ -187,12 +187,12 @@ export default function Home() {
 
         {/* Full Screen Image Section */}
         <section className="relative min-h-screen w-full flex items-center justify-center">
-          <div className="absolute inset-0 z-0 bg-black">
+          <div className="absolute inset-0 z-0 bg-black h-[120vh] md:h-full -mt-[10vh] md:mt-0">
             <Image
               src="/Current_The cross/Cross_7.jpg"
               alt="Grace Season Collection - The Cross"
               fill
-              className="object-contain md:object-cover object-center"
+              className="object-cover object-center"
               sizes="100vw"
               quality={90}
               priority
