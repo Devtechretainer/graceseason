@@ -106,11 +106,11 @@ export default function Home() {
   ]
 
   const crossTransformStyles = [
-    "rotate(5deg) translate(-150px)",
-    "rotate(0deg) translate(-70px)",
+    "rotate(5deg) translate(-240px)",
+    "rotate(0deg) translate(-110px)",
     "rotate(-5deg)",
-    "rotate(5deg) translate(70px)",
-    "rotate(-5deg) translate(150px)"
+    "rotate(5deg) translate(110px)",
+    "rotate(-5deg) translate(240px)"
   ]
 
   return (
@@ -187,49 +187,6 @@ export default function Home() {
 
       {/* Content Sections */}
       <div className="bg-background">
-        {/* The Cross Collection - BounceCards Section */}
-        <AnimatedSection>
-          <section className="py-16 md:py-24 bg-gradient-to-b from-background to-secondary/30">
-            <div className="container px-4 md:px-6">
-              <motion.div
-                variants={fadeInUp}
-                className="text-center mb-12"
-              >
-                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">The Cross Collection</h2>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-                  Inspired by biblical storytelling and reimagined through contemporary design
-                </p>
-              </motion.div>
-              
-              <div className="flex justify-center items-center mb-12">
-                <BounceCards
-                  className="custom-bounceCards"
-                  images={crossImages}
-                  containerWidth={500}
-                  containerHeight={300}
-                  animationDelay={0.5}
-                  animationStagger={0.08}
-                  easeType="elastic.out(1, 0.5)"
-                  transformStyles={crossTransformStyles}
-                  enableHover={true}
-                />
-              </div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-                className="text-center"
-              >
-                <Button asChild size="lg" className="rounded-full px-8">
-                  <Link href="/shop?category=The Cross Collection">Explore Collection</Link>
-                </Button>
-              </motion.div>
-            </div>
-          </section>
-        </AnimatedSection>
-
         {/* Featured Products */}
         <AnimatedSection>
           <section className="py-12 md:py-16">
@@ -537,6 +494,49 @@ export default function Home() {
               >
                 <Button asChild variant="outline" className="rounded-full px-8">
                   <Link href="/shop?category=Shirts">Shop All Shirts</Link>
+                </Button>
+              </motion.div>
+            </div>
+          </section>
+        </AnimatedSection>
+
+        {/* The Cross Collection - BounceCards Section at Bottom */}
+        <AnimatedSection>
+          <section className="py-16 md:py-24 bg-gradient-to-b from-background to-secondary/30">
+            <div className="container px-4 md:px-6">
+              <motion.div
+                variants={fadeInUp}
+                className="text-center mb-12"
+              >
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">The Cross Collection</h2>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+                  Inspired by biblical storytelling and reimagined through contemporary design
+                </p>
+              </motion.div>
+              
+              <div className="flex justify-center items-center mb-12">
+                <BounceCards
+                  className="custom-bounceCards"
+                  images={crossImages}
+                  containerWidth={800}
+                  containerHeight={500}
+                  animationDelay={0.5}
+                  animationStagger={0.08}
+                  easeType="elastic.out(1, 0.5)"
+                  transformStyles={crossTransformStyles}
+                  enableHover={true}
+                />
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="text-center"
+              >
+                <Button asChild size="lg" className="rounded-full px-8">
+                  <Link href="/shop?category=The Cross Collection">Explore Collection</Link>
                 </Button>
               </motion.div>
             </div>
