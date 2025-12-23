@@ -1,12 +1,33 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Instagram, Twitter, Facebook } from "lucide-react"
+import CircularGallery from "@/components/CircularGallery"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  // Cross collection images for CircularGallery
+  const crossGalleryItems = [
+    { image: "/Current_The cross/Cross_1.jpg", text: "The Cross 1" },
+    { image: "/Current_The cross/Cross_2.jpg", text: "The Cross 2" },
+    { image: "/Current_The cross/Cross_3.jpg", text: "The Cross 3" },
+    { image: "/Current_The cross/Cross_4.jpg", text: "The Cross 4" },
+    { image: "/Current_The cross/Cross_5.jpg", text: "The Cross 5" },
+    { image: "/Current_The cross/Cross_6.jpg", text: "The Cross 6" },
+    { image: "/Current_The cross/Cross_7.jpg", text: "The Cross 7" },
+    { image: "/Current_The cross/Cross_8.jpg", text: "The Cross 8" },
+  ]
 
   return (
-    <footer className="bg-black text-white py-10 md:py-12">
+    <footer className="bg-black text-white">
       <div className="container px-4 md:px-6">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
           <div className="col-span-2 md:col-span-1">
@@ -157,6 +178,19 @@ export default function Footer() {
           <p>© {currentYear} Grace Season. All rights reserved.</p>
         </div>
       </div>
+
+      {/* Circular Gallery at bottom of footer */}
+      {isMounted && (
+        <div className="w-full" style={{ height: '600px', position: 'relative', marginTop: '2rem' }}>
+          <CircularGallery 
+            items={crossGalleryItems}
+            bend={3}
+            textColor="#ffffff"
+            borderRadius={0.05}
+            scrollEase={0.02}
+          />
+        </div>
+      )}
     </footer>
   )
 }
