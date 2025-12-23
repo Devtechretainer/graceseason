@@ -50,7 +50,9 @@ export default function Home() {
   // Hero slider images
   const heroImages = [
     "/Current_The cross/Cross_7.jpg",
-   
+    "/Current_The cross/Cross_8.jpg",
+    "/Graceland Collection_2/2ndgl_3.jpg",
+    "/Graceland Collection_2/2ndgl_4.jpg",
   ]
 
   return (
@@ -68,7 +70,7 @@ export default function Home() {
           plugins={[autoplayPlugin.current]}
           className="w-full h-screen"
         >
-          <CarouselContent className="h-screen">
+          <CarouselContent className="h-screen md:h-screen">
             {heroImages.map((img, index) => (
               <CarouselItem key={index} className="h-screen p-0">
                 <div className="relative w-full h-full">
@@ -76,9 +78,10 @@ export default function Home() {
                     src={img}
                     alt={`Grace Season Collection ${index + 1}`}
                     fill
-                    className="object-cover"
+                    className="object-cover md:object-cover object-center"
                     priority={index === 0}
                     sizes="100vw"
+                    quality={90}
                   />
                   <div className="absolute inset-0 bg-black/50" />
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -189,8 +192,9 @@ export default function Home() {
               src="/Current_The cross/Cross_7.jpg"
               alt="Grace Season Collection - The Cross"
               fill
-              className="object-cover"
+              className="object-cover object-center md:object-cover"
               sizes="100vw"
+              quality={90}
               priority
             />
             <div className="absolute inset-0 bg-black/40" />
