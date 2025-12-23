@@ -1,10 +1,4 @@
-import { Inter, Playfair_Display, Poppins } from "next/font/google"
-
-export const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-})
+import { Playfair_Display, Poppins } from "next/font/google"
 
 // Elegant serif font for headings - perfect for fashion brands
 export const playfair = Playfair_Display({
