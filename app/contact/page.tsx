@@ -77,9 +77,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="font-semibold text-lg">Our Location</h3>
                 <p className="text-muted-foreground">
-                  Sector 42, Chandigarh
-                  <br />
-                  // address
+                  Sunyani, Ghana
                 </p>
               </div>
             </div>
@@ -89,9 +87,9 @@ export default function ContactPage() {
               <div>
                 <h3 className="font-semibold text-lg">Email Us</h3>
                 <p className="text-muted-foreground">
-                  info@graceseason.com
-                  <br />
-                  sales@graceseason.com
+                  <a href="mailto:gracesznfashion@gmail.com" className="hover:underline">
+                    gracesznfashion@gmail.com
+                  </a>
                 </p>
               </div>
             </div>
@@ -101,9 +99,13 @@ export default function ContactPage() {
               <div>
                 <h3 className="font-semibold text-lg">Call Us</h3>
                 <p className="text-muted-foreground">
-                  +91 88475 41789
+                  <a href="tel:+233503338796" className="hover:underline">
+                    050 333 8796
+                  </a>
                   <br />
-                  Monday-Friday: 9am-6pm IST
+                  <a href="tel:+233546254653" className="hover:underline">
+                    054 625 4653
+                  </a>
                 </p>
               </div>
             </div>

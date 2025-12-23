@@ -261,7 +261,8 @@ export default function TermsAndConditionsPage() {
             If you have any questions about these Terms and Conditions, You can contact us:
           </p>
           <ul className="list-disc pl-6 text-muted-foreground">
-            <li>By email: sukhisthebest3@gmail.com</li>
+            <li>By email: <a href="mailto:gracesznfashion@gmail.com" className="underline hover:text-primary">gracesznfashion@gmail.com</a></li>
+            <li>By phone: <a href="tel:+233503338796" className="underline hover:text-primary">050 333 8796</a> / <a href="tel:+233546254653" className="underline hover:text-primary">054 625 4653</a></li>
           </ul>
         </section>
       </div>

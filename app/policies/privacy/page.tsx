@@ -148,8 +148,8 @@ export default function PrivacyPolicyPage() {
           <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
           <p className="text-muted-foreground">
             If you have any questions about this Privacy Policy, please contact us at{" "}
-            <Link href="mailto:privacy@graceseason.com" className="underline hover:text-primary">
-              privacy@graceseason.com
+            <Link href="mailto:gracesznfashion@gmail.com" className="underline hover:text-primary">
+              gracesznfashion@gmail.com
             </Link>
             .
           </p>
