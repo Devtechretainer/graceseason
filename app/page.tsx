@@ -31,6 +31,43 @@ const fadeInUp = {
   }
 }
 
+const fadeInScale = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+}
+
+const slideInLeft = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+}
+
+const slideInRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+}
+
+const rotateIn = {
+  hidden: { opacity: 0, rotate: -10, scale: 0.9 },
+  visible: { 
+    opacity: 1, 
+    rotate: 0,
+    scale: 1,
+    transition: { duration: 0.7, ease: "easeOut" }
+  }
+}
+
 const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
@@ -192,8 +229,10 @@ export default function Home() {
           <section className="py-12 md:py-16">
             <div className="container px-4 md:px-6">
               <motion.h2 
-                variants={fadeInUp}
+                variants={fadeInScale}
                 className="text-2xl md:text-3xl font-display font-bold text-center mb-10"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
               >
                 New Arrivals
               </motion.h2>
@@ -211,19 +250,24 @@ export default function Home() {
                   <ClimbingBoxLoader color="#ffffff" speedMultiplier={2} />
                 </div>
               ) : (
-                <motion.div
-                  variants={staggerContainer}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-                >
-                  {featuredProducts.map((product, index) => (
-                    <motion.div key={product.id} variants={fadeInUp}>
-                      <ProductCard product={product} />
-                    </motion.div>
-                  ))}
-                </motion.div>
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+              >
+                {featuredProducts.map((product, index) => (
+                  <motion.div 
+                    key={product.id} 
+                    variants={fadeInScale}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ProductCard product={product} />
+                  </motion.div>
+                ))}
+              </motion.div>
               )}
 
               <motion.div
@@ -257,8 +301,10 @@ export default function Home() {
           <section className="py-12 md:py-16 bg-secondary/50">
             <div className="container px-4 md:px-6">
               <motion.h2
-                variants={fadeInUp}
+                variants={rotateIn}
                 className="text-2xl md:text-3xl font-display font-bold text-center mb-10"
+                whileHover={{ scale: 1.05, rotate: 2 }}
+                transition={{ duration: 0.3 }}
               >
                 Shop Categories
               </motion.h2>
@@ -270,8 +316,13 @@ export default function Home() {
                 viewport={{ once: true, margin: "-100px" }}
                 className="grid grid-cols-1 md:grid-cols-3 gap-6"
               >
-                {categoryImages.map((category) => (
-                  <motion.div key={category.name} variants={fadeInUp}>
+                {categoryImages.map((category, index) => (
+                  <motion.div 
+                    key={category.name} 
+                    variants={index % 2 === 0 ? slideInLeft : slideInRight}
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     <Link
                       href={`/shop?category=${encodeURIComponent(category.slug)}`}
                       className="group relative aspect-square overflow-hidden rounded-xl block"
@@ -301,23 +352,31 @@ export default function Home() {
           </section>
         </AnimatedSection>
 
-        {/* Full Screen Image Section */}
-        <section className="relative min-h-screen w-full flex items-center justify-center">
+        {/* Full Screen Image Section with Parallax */}
+        <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
           <motion.div
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1.5, ease: "easeOut" }}
             className="absolute inset-0 z-0 bg-black h-[120vh] md:h-full -mt-[10vh] md:mt-0"
           >
-            <Image
-              src="/Current_The cross/Cross_7.jpg"
-              alt="Grace Season Collection - The Cross"
-              fill
-              className="object-cover object-center"
-              sizes="100vw"
-              quality={90}
-              priority
-            />
+            <motion.div
+              className="absolute inset-0"
+              initial={{ scale: 1 }}
+              whileInView={{ scale: 1.1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 2, ease: "easeOut" }}
+            >
+              <Image
+                src="/Current_The cross/Cross_7.jpg"
+                alt="Grace Season Collection - The Cross"
+                fill
+                className="object-cover object-center"
+                sizes="100vw"
+                quality={90}
+                priority
+              />
+            </motion.div>
             <div className="absolute inset-0 bg-black/40" />
           </motion.div>
 
@@ -364,10 +423,16 @@ export default function Home() {
           <section className="py-16 md:py-24 bg-background">
             <div className="container px-4 md:px-6">
               <motion.div
-                variants={fadeInUp}
+                variants={fadeInScale}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Season Highlights</h2>
+                <motion.h2 
+                  className="text-3xl md:text-4xl font-display font-bold mb-4"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Season Highlights
+                </motion.h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                   Discover our latest collections featuring ready-to-wear apparel, cotton essentials, and lifestyle merchandise
                 </p>
@@ -380,8 +445,13 @@ export default function Home() {
                 viewport={{ once: true, margin: "-100px" }}
                 className="grid grid-cols-1 md:grid-cols-3 gap-8"
               >
-                {categories.slice(0, 3).map((category) => (
-                  <motion.div key={category.name} variants={fadeInUp}>
+                {categories.slice(0, 3).map((category, index) => (
+                  <motion.div 
+                    key={category.name} 
+                    variants={rotateIn}
+                    whileHover={{ y: -10, scale: 1.02, rotate: 2 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     <Link 
                       href={`/shop?category=${encodeURIComponent(category.name)}`} 
                       className="group block"
@@ -412,10 +482,16 @@ export default function Home() {
           <section className="py-16 md:py-24 bg-secondary/50">
             <div className="container px-4 md:px-6">
               <motion.div
-                variants={fadeInUp}
+                variants={fadeInScale}
                 className="max-w-2xl mx-auto text-center"
               >
-                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Stay in the know</h2>
+                <motion.h2 
+                  className="text-3xl md:text-4xl font-display font-bold mb-4"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Stay in the know
+                </motion.h2>
                 <p className="text-lg text-muted-foreground mb-8">
                   Sign up to be the first to know about new collections, special offers, and more.
                 </p>
@@ -426,14 +502,18 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: 0.3 }}
                   className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
                 >
-                  <input
+                  <motion.input
+                    whileFocus={{ scale: 1.05 }}
+                    transition={{ duration: 0.3 }}
                     type="email"
                     placeholder="Enter your email"
                     className="flex-1 px-4 py-3 rounded-full border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
                   />
-                  <Button type="submit" size="lg" className="rounded-full px-8">
-                    Sign Up
-                  </Button>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button type="submit" size="lg" className="rounded-full px-8">
+                      Sign Up
+                    </Button>
+                  </motion.div>
                 </motion.form>
               </motion.div>
             </div>
@@ -462,7 +542,12 @@ export default function Home() {
                 className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
               >
                 {shirtImages.map((img, index) => (
-                  <motion.div key={index} variants={fadeInUp}>
+                  <motion.div 
+                    key={index} 
+                    variants={fadeInScale}
+                    whileHover={{ y: -10, scale: 1.03, rotate: index % 2 === 0 ? 1 : -1 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     <Link
                       href="/shop?category=Shirts"
                       className="group relative aspect-[3/4] overflow-hidden rounded-xl shadow-lg block"
@@ -502,31 +587,43 @@ export default function Home() {
 
         {/* The Cross Collection - BounceCards Section at Bottom */}
         <AnimatedSection>
-          <section className="py-16 md:py-24 bg-gradient-to-b from-background to-secondary/30">
+          <section className="py-16 md:py-24 bg-gradient-to-b from-background to-secondary/30 overflow-hidden">
             <div className="container px-4 md:px-6">
               <motion.div
-                variants={fadeInUp}
+                variants={fadeInScale}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">The Cross Collection</h2>
+                <motion.h2 
+                  className="text-3xl md:text-4xl font-display font-bold mb-4"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  The Cross Collection
+                </motion.h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
                   Inspired by biblical storytelling and reimagined through contemporary design
                 </p>
               </motion.div>
               
-              <div className="flex justify-center items-center mb-12">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="flex justify-center items-center mb-12"
+              >
                 <BounceCards
                   className="custom-bounceCards"
                   images={crossImages}
                   containerWidth={800}
-                  containerHeight={500}
+                  containerHeight={400}
                   animationDelay={0.5}
                   animationStagger={0.08}
                   easeType="elastic.out(1, 0.5)"
                   transformStyles={crossTransformStyles}
                   enableHover={true}
                 />
-              </div>
+              </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

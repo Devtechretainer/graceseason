@@ -119,25 +119,47 @@ export default function BounceCards({
   }
 
   return (
-    <div
-      className={`bounceCardsContainer ${className}`}
-      style={{
-        position: 'relative',
-        width: containerWidth,
-        height: containerHeight
-      }}
-    >
-      {images.map((src, idx) => (
+    <div className={`bounceCardsWrapper ${className}`}>
+      <div
+        className="bounceCardsContainer"
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: containerHeight,
+          overflowX: 'auto',
+          overflowY: 'hidden',
+          scrollBehavior: 'smooth',
+          scrollbarWidth: 'thin',
+        }}
+      >
         <div
-          key={idx}
-          className={`bounce-card bounce-card-${idx}`}
-          style={{ transform: transformStyles[idx] ?? 'none' }}
-          onMouseEnter={() => pushSiblings(idx)}
-          onMouseLeave={resetSiblings}
+          className="bounceCardsInner"
+          style={{
+            display: 'flex',
+            gap: '40px',
+            padding: '20px',
+            width: 'max-content',
+            minWidth: '100%',
+            justifyContent: 'flex-start',
+          }}
         >
-          <img className="bounce-image" src={src} alt={`card-${idx}`} />
+          {images.map((src, idx) => (
+            <div
+              key={idx}
+              className={`bounce-card bounce-card-${idx}`}
+              style={{ 
+                transform: 'none',
+                position: 'relative',
+                flexShrink: 0,
+              }}
+              onMouseEnter={() => pushSiblings(idx)}
+              onMouseLeave={resetSiblings}
+            >
+              <img className="bounce-image" src={src} alt={`card-${idx}`} />
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   )
 }
