@@ -169,67 +169,53 @@ export default function Home() {
         </Link>
       </div>
 
-      {/* Hero Section with Image Slider */}
-      <section className="relative min-h-screen w-full">
-        <Carousel
-          plugins={[autoplayPlugin.current]}
-          className="w-full h-screen"
+      {/* Hero Section with Video */}
+      <section className="relative w-full h-screen min-h-[600px] overflow-hidden">
+        <video
+          className="absolute top-0 left-0 w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
         >
-          <CarouselContent className="h-screen md:h-screen">
-            {heroImages.map((img, index) => (
-              <CarouselItem key={index} className="h-screen p-0">
-                <div className="relative w-full h-[120vh] md:h-screen bg-black -mt-[10vh] md:mt-0">
-                  <Image
-                    src={img}
-                    alt={`Grace Season Collection ${index + 1}`}
-                    fill
-                    className="object-cover object-center"
-                    priority={index === 0}
-                    sizes="100vw"
-                    quality={90}
-                  />
-                  <div className="absolute inset-0 bg-black/50" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                      className="container px-4 md:px-6 text-center relative z-10"
-                    >
-                             <motion.h1
-                               initial={{ opacity: 0, y: 20 }}
-                               animate={{ opacity: 1, y: 0 }}
-                               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                               className="text-3xl md:text-4xl font-display font-bold tracking-tighter mb-4 text-white"
-                             >
-                               Grace Season
-                             </motion.h1>
-                             <motion.p
-                               initial={{ opacity: 0, y: 20 }}
-                               animate={{ opacity: 1, y: 0 }}
-                               transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                               className="text-base md:text-lg text-white/80 max-w-2xl mx-auto mb-8"
-                             >
-                               Wear Your Faith. Tell Your Story.
-                             </motion.p>
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
-                      >
-                        <Button asChild size="lg" className="rounded-full px-8">
-                          <Link href="/shop">Shop Now</Link>
-                        </Button>
-                      </motion.div>
-                    </motion.div>
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="left-4 md:left-8 text-white border-white/50 hover:bg-white/20 hover:text-white" />
-          <CarouselNext className="right-4 md:right-8 text-white border-white/50 hover:bg-white/20 hover:text-white" />
-        </Carousel>
+          <source src="/video/lv_0_20251014221315.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="container px-4 md:px-6 text-center"
+          >
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tighter mb-4 text-white"
+            >
+              Grace Season
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+              className="text-base md:text-lg lg:text-xl text-white/80 max-w-2xl mx-auto mb-8"
+            >
+              Wear Your Faith. Tell Your Story.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+            >
+              <Button asChild size="lg" className="rounded-full px-8">
+                <Link href="/shop">Shop Now</Link>
+              </Button>
+            </motion.div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Content Sections */}
@@ -294,17 +280,6 @@ export default function Home() {
             </div>
           </section>
         </AnimatedSection>
-
-        {/* Fullscreen Video Section */}
-        <section className="relative h-screen w-full overflow-hidden">
-          <video className="absolute top-0 left-0 w-full h-full object-cover" autoPlay loop muted playsInline>
-            <source
-              src="https://dripbyrage.store/cdn/shop/videos/c/vp/7775b6b46fc6438c84b23c6da7cbb5f6/7775b6b46fc6438c84b23c6da7cbb5f6.HD-720p-4.5Mbps-41553509.mp4"
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
-        </section>
 
         {/* Shop Categories */}
         <AnimatedSection>
