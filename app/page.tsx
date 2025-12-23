@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -18,6 +18,46 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
+import { motion, useInView } from "framer-motion"
+
+// Animation variants for scroll-triggered animations
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+}
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+}
+
+// Animated section wrapper component
+function AnimatedSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      variants={fadeInUp}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 export default function Home() {
   const { featuredProducts, isLoading, error } = useProducts()
@@ -85,17 +125,38 @@ export default function Home() {
                   />
                   <div className="absolute inset-0 bg-black/50" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="container px-4 md:px-6 text-center relative z-10">
-                      <h1 className="text-4xl md:text-6xl font-display font-bold tracking-tighter mb-4 text-white">
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
+                      className="container px-4 md:px-6 text-center relative z-10"
+                    >
+                      <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                        className="text-4xl md:text-6xl font-display font-bold tracking-tighter mb-4 text-white"
+                      >
                         Grace Season
-                      </h1>
-                      <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8">
-                        A Ghana-based fashion brand inspired by biblical storytelling and reimagined through contemporary design
-                      </p>
-                      <Button asChild size="lg" className="rounded-full px-8">
-                        <Link href="/shop">Shop Now</Link>
-                      </Button>
-                    </div>
+                      </motion.h1>
+                      <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                        className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8"
+                      >
+                        Wear Your Faith. Tell Your Story.
+                      </motion.p>
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+                      >
+                        <Button asChild size="lg" className="rounded-full px-8">
+                          <Link href="/shop">Shop Now</Link>
+                        </Button>
+                      </motion.div>
+                    </motion.div>
                   </div>
                 </div>
               </CarouselItem>
@@ -109,37 +170,58 @@ export default function Home() {
       {/* Content Sections */}
       <div className="bg-background">
         {/* Featured Products */}
-        <section className="py-12 md:py-16">
-          <div className="container px-4 md:px-6">
-            <h2 className="text-2xl md:text-3xl font-display font-bold text-center mb-10">New Arrivals</h2>
+        <AnimatedSection>
+          <section className="py-12 md:py-16">
+            <div className="container px-4 md:px-6">
+              <motion.h2 
+                variants={fadeInUp}
+                className="text-2xl md:text-3xl font-display font-bold text-center mb-10"
+              >
+                New Arrivals
+              </motion.h2>
 
-            {error && (
-              <Alert variant="destructive" className="mb-6">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
+              {error && (
+                <Alert variant="destructive" className="mb-6">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
 
-            {isLoading ? (
-              <div className="flex justify-center items-center py-20">
-                <ClimbingBoxLoader color="#ffffff" speedMultiplier={2} />
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {featuredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            )}
+              {isLoading ? (
+                <div className="flex justify-center items-center py-20">
+                  <ClimbingBoxLoader color="#ffffff" speedMultiplier={2} />
+                </div>
+              ) : (
+                <motion.div
+                  variants={staggerContainer}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-100px" }}
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+                >
+                  {featuredProducts.map((product, index) => (
+                    <motion.div key={product.id} variants={fadeInUp}>
+                      <ProductCard product={product} />
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
 
-            <div className="text-center mt-10">
-              <Button asChild variant="outline" className="rounded-full px-8">
-                <Link href="/shop">View All Products</Link>
-              </Button>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-center mt-10"
+              >
+                <Button asChild variant="outline" className="rounded-full px-8">
+                  <Link href="/shop">View All Products</Link>
+                </Button>
+              </motion.div>
             </div>
-          </div>
-        </section>
+          </section>
+        </AnimatedSection>
 
         {/* Fullscreen Video Section */}
         <section className="relative h-screen w-full overflow-hidden">
@@ -153,41 +235,62 @@ export default function Home() {
         </section>
 
         {/* Shop Categories */}
-        <section className="py-12 md:py-16 bg-secondary/50">
-          <div className="container px-4 md:px-6">
-            <h2 className="text-2xl md:text-3xl font-display font-bold text-center mb-10">Shop Categories</h2>
+        <AnimatedSection>
+          <section className="py-12 md:py-16 bg-secondary/50">
+            <div className="container px-4 md:px-6">
+              <motion.h2
+                variants={fadeInUp}
+                className="text-2xl md:text-3xl font-display font-bold text-center mb-10"
+              >
+                Shop Categories
+              </motion.h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {categoryImages.map((category) => (
-                <Link
-                  key={category.name}
-                  href={`/shop?category=${encodeURIComponent(category.slug)}`}
-                  className="group relative aspect-square overflow-hidden rounded-xl"
-                >
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={category.image || "/placeholder.svg"}
-                      alt={category.name}
-                      fill
-                      className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                      onError={(e) => {
-                        // Fallback if image fails to load
-                        e.currentTarget.src = category.fallbackImage
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                      <h3 className="text-xl font-semibold text-white font-display">{category.name}</h3>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              >
+                {categoryImages.map((category) => (
+                  <motion.div key={category.name} variants={fadeInUp}>
+                    <Link
+                      href={`/shop?category=${encodeURIComponent(category.slug)}`}
+                      className="group relative aspect-square overflow-hidden rounded-xl block"
+                    >
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={category.image || "/placeholder.svg"}
+                          alt={category.name}
+                          fill
+                          className="object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                          onError={(e) => {
+                            // Fallback if image fails to load
+                            e.currentTarget.src = category.fallbackImage
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all duration-300 flex items-center justify-center">
+                          <h3 className="text-xl font-semibold text-white font-display group-hover:scale-105 transition-transform duration-300">
+                            {category.name}
+                          </h3>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </motion.div>
             </div>
-          </div>
-        </section>
+          </section>
+        </AnimatedSection>
 
         {/* Full Screen Image Section */}
         <section className="relative min-h-screen w-full flex items-center justify-center">
-          <div className="absolute inset-0 z-0 bg-black h-[120vh] md:h-full -mt-[10vh] md:mt-0">
+          <motion.div
+            initial={{ scale: 1.1 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="absolute inset-0 z-0 bg-black h-[120vh] md:h-full -mt-[10vh] md:mt-0"
+          >
             <Image
               src="/Current_The cross/Cross_7.jpg"
               alt="Grace Season Collection - The Cross"
@@ -198,116 +301,186 @@ export default function Home() {
               priority
             />
             <div className="absolute inset-0 bg-black/40" />
-          </div>
+          </motion.div>
 
-          <div className="container relative z-10 px-4 md:px-6 text-center">
-            <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tighter mb-4 text-white">Elevate Your Style</h2>
-            <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="container relative z-10 px-4 md:px-6 text-center"
+          >
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-4xl md:text-5xl font-display font-bold tracking-tighter mb-4 text-white"
+            >
+              Elevate Your Style
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8"
+            >
               Ready-to-wear apparel and lifestyle merchandise with a story of faith, creativity, and style
-            </p>
-            <Button asChild size="lg" className="rounded-full px-8">
-              <Link href="/shop">Explore Collection</Link>
-            </Button>
-          </div>
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <Button asChild size="lg" className="rounded-full px-8">
+                <Link href="/shop">Explore Collection</Link>
+              </Button>
+            </motion.div>
+          </motion.div>
         </section>
 
         {/* Season Highlights / Collections Section */}
-        <section className="py-16 md:py-24 bg-background">
-          <div className="container px-4 md:px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Season Highlights</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Discover our latest collections featuring ready-to-wear apparel, cotton essentials, and lifestyle merchandise
-              </p>
+        <AnimatedSection>
+          <section className="py-16 md:py-24 bg-background">
+            <div className="container px-4 md:px-6">
+              <motion.div
+                variants={fadeInUp}
+                className="text-center mb-12"
+              >
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Season Highlights</h2>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                  Discover our latest collections featuring ready-to-wear apparel, cotton essentials, and lifestyle merchandise
+                </p>
+              </motion.div>
+              
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-8"
+              >
+                {categories.slice(0, 3).map((category) => (
+                  <motion.div key={category.name} variants={fadeInUp}>
+                    <Link 
+                      href={`/shop?category=${encodeURIComponent(category.name)}`} 
+                      className="group block"
+                    >
+                      <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-gray-100">
+                        <img 
+                          src={category.image} 
+                          alt={category.name}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all duration-300" />
+                        <div className="absolute inset-0 flex items-end p-6">
+                          <h3 className="text-2xl font-display font-bold text-white group-hover:translate-y-[-8px] transition-transform duration-300">
+                            {category.name}
+                          </h3>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </motion.div>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {categories.slice(0, 3).map((category) => (
-                <Link 
-                  key={category.name}
-                  href={`/shop?category=${encodeURIComponent(category.name)}`} 
-                  className="group"
-                >
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-gray-100">
-                    <img 
-                      src={category.image} 
-                      alt={category.name}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all duration-300" />
-                    <div className="absolute inset-0 flex items-end p-6">
-                      <h3 className="text-2xl font-display font-bold text-white">{category.name}</h3>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+          </section>
+        </AnimatedSection>
 
         {/* Newsletter Signup Section */}
-        <section className="py-16 md:py-24 bg-secondary/50">
-          <div className="container px-4 md:px-6">
-            <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Stay in the know</h2>
-              <p className="text-lg text-muted-foreground mb-8">
-                Sign up to be the first to know about new collections, special offers, and more.
-              </p>
-              <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 rounded-full border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                <Button type="submit" size="lg" className="rounded-full px-8">
-                  Sign Up
-                </Button>
-              </form>
+        <AnimatedSection>
+          <section className="py-16 md:py-24 bg-secondary/50">
+            <div className="container px-4 md:px-6">
+              <motion.div
+                variants={fadeInUp}
+                className="max-w-2xl mx-auto text-center"
+              >
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Stay in the know</h2>
+                <p className="text-lg text-muted-foreground mb-8">
+                  Sign up to be the first to know about new collections, special offers, and more.
+                </p>
+                <motion.form
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
+                >
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="flex-1 px-4 py-3 rounded-full border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+                  />
+                  <Button type="submit" size="lg" className="rounded-full px-8">
+                    Sign Up
+                  </Button>
+                </motion.form>
+              </motion.div>
             </div>
-          </div>
-        </section>
+          </section>
+        </AnimatedSection>
 
         {/* Shirt Images Section at Bottom */}
-        <section className="py-16 md:py-24 bg-background">
-          <div className="container px-4 md:px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Shirt Collection</h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Premium shirts crafted with quality materials and contemporary design
-              </p>
-            </div>
+        <AnimatedSection>
+          <section className="py-16 md:py-24 bg-background">
+            <div className="container px-4 md:px-6">
+              <motion.div
+                variants={fadeInUp}
+                className="text-center mb-12"
+              >
+                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Shirt Collection</h2>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                  Premium shirts crafted with quality materials and contemporary design
+                </p>
+              </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-              {shirtImages.map((img, index) => (
-                <Link
-                  key={index}
-                  href="/shop?category=Shirts"
-                  className="group relative aspect-[3/4] overflow-hidden rounded-xl shadow-lg"
-                >
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={img}
-                      alt={`Shirt ${index + 1}`}
-                      fill
-                      className="object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-white font-semibold text-lg">View Collection</p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
+              >
+                {shirtImages.map((img, index) => (
+                  <motion.div key={index} variants={fadeInUp}>
+                    <Link
+                      href="/shop?category=Shirts"
+                      className="group relative aspect-[3/4] overflow-hidden rounded-xl shadow-lg block"
+                    >
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={img}
+                          alt={`Shirt ${index + 1}`}
+                          fill
+                          className="object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
+                        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <p className="text-white font-semibold text-lg">View Collection</p>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </motion.div>
 
-            <div className="text-center mt-12">
-              <Button asChild variant="outline" className="rounded-full px-8">
-                <Link href="/shop?category=Shirts">Shop All Shirts</Link>
-              </Button>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-center mt-12"
+              >
+                <Button asChild variant="outline" className="rounded-full px-8">
+                  <Link href="/shop?category=Shirts">Shop All Shirts</Link>
+                </Button>
+              </motion.div>
             </div>
-          </div>
-        </section>
+          </section>
+        </AnimatedSection>
       </div>
     </div>
   )

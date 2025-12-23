@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { ShoppingCart, Menu, X, Heart, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState, useEffect } from "react"
@@ -83,8 +84,15 @@ export default function Navbar() {
       className="fixed top-3 left-0 right-0 z-50 mx-4 w-[calc(100%-2rem)] rounded-xl bg-white/90 backdrop-blur-sm border border-border shadow-md transition-all duration-300"
     >
       <div className="container flex items-center justify-between h-16 px-4 md:px-6">
-        <Link href="/" className="text-xl font-display font-bold tracking-tighter">
-          GRACE SEASON
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/Logo.png"
+            alt="Grace Season"
+            width={120}
+            height={40}
+            className="h-8 md:h-10 w-auto object-contain"
+            priority
+          />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">

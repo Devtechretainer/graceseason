@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Instagram, Twitter, Facebook } from "lucide-react"
 
 export default function Footer() {
@@ -9,7 +10,15 @@ export default function Footer() {
       <div className="container px-4 md:px-6">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
           <div className="col-span-2 md:col-span-1">
-            <h3 className="text-lg font-display font-semibold mb-4">GRACE SEASON</h3>
+            <Link href="/" className="block mb-4">
+              <Image
+                src="/Logo.png"
+                alt="Grace Season"
+                width={140}
+                height={46}
+                className="h-10 w-auto object-contain brightness-0 invert"
+              />
+            </Link>
             <p className="text-sm text-gray-300 mb-4">
               A Ghana-based fashion and lifestyle brand inspired by biblical storytelling and reimagined through contemporary design.
             </p>
