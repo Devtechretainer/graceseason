@@ -148,21 +148,16 @@ export default function Home() {
     "/Graceland Collection_2/2ndgl_4.jpg",
   ]
 
-  // Cross collection images for BounceCards
-  const crossImages = [
-    "/Current_The cross/Cross_1.jpg",
-    "/Current_The cross/Cross_2.jpg",
-    "/Current_The cross/Cross_3.jpg",
-    "/Current_The cross/Cross_4.jpg",
-    "/Current_The cross/Cross_5.jpg",
-  ]
-
-  const crossTransformStyles = [
-    "rotate(5deg) translate(-240px)",
-    "rotate(0deg) translate(-110px)",
-    "rotate(-5deg)",
-    "rotate(5deg) translate(110px)",
-    "rotate(-5deg) translate(240px)"
+  // Cross collection images for CircularGallery
+  const crossGalleryItems = [
+    { image: "/Current_The cross/Cross_1.jpg", text: "The Cross 1" },
+    { image: "/Current_The cross/Cross_2.jpg", text: "The Cross 2" },
+    { image: "/Current_The cross/Cross_3.jpg", text: "The Cross 3" },
+    { image: "/Current_The cross/Cross_4.jpg", text: "The Cross 4" },
+    { image: "/Current_The cross/Cross_5.jpg", text: "The Cross 5" },
+    { image: "/Current_The cross/Cross_6.jpg", text: "The Cross 6" },
+    { image: "/Current_The cross/Cross_7.jpg", text: "The Cross 7" },
+    { image: "/Current_The cross/Cross_8.jpg", text: "The Cross 8" },
   ]
 
   return (
@@ -625,7 +620,8 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="flex justify-center items-center mb-12"
+                className="w-full mb-12"
+                style={{ height: '600px', position: 'relative' }}
               >
                 <CircularGallery 
                   items={crossGalleryItems}
