@@ -1,15 +1,11 @@
-"use client"
-
 import Link from "next/link"
 import Image from "next/image"
 import { Instagram, Twitter, Facebook } from "lucide-react"
-import { VelocityText } from "./VelocityText"
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <>
     <footer className="bg-black text-white py-10 md:py-12">
       <div className="container px-4 md:px-6">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-10">
