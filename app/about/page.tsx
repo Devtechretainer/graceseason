@@ -51,41 +51,14 @@ export default function AboutPage() {
           </div>
 
           {/* Founder image */}
-          <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 shadow-2xl">
+          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 shadow-2xl max-h-[500px]">
             <Image
               src="/founder.jpg"
               alt="Konadu Bright - Founder of Grace Season"
               fill
-              className="object-cover"
+              className="object-cover object-center"
               priority
             />
-          </div>
-        </div>
-
-        {/* Values/Features Section */}
-        <div className="grid md:grid-cols-3 gap-8 mb-20">
-          <div className="text-center p-6 rounded-xl bg-secondary/50">
-            <div className="text-4xl mb-4">✨</div>
-            <h3 className="text-lg font-semibold mb-2">Faith-Inspired</h3>
-            <p className="text-sm text-muted-foreground">
-              Every design is rooted in biblical storytelling, creating pieces with purpose and meaning.
-            </p>
-          </div>
-          
-          <div className="text-center p-6 rounded-xl bg-secondary/50">
-            <div className="text-4xl mb-4">🎨</div>
-            <h3 className="text-lg font-semibold mb-2">Contemporary Design</h3>
-            <p className="text-sm text-muted-foreground">
-              Biblical stories reimagined through modern fashion, blending tradition with innovation.
-            </p>
-          </div>
-          
-          <div className="text-center p-6 rounded-xl bg-secondary/50">
-            <div className="text-4xl mb-4">👥</div>
-            <h3 className="text-lg font-semibold mb-2">Community Focus</h3>
-            <p className="text-sm text-muted-foreground">
-              Through our Networking Scheme (Sinai), we build connections and empower communities.
-            </p>
           </div>
         </div>
 
