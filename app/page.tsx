@@ -50,7 +50,9 @@ export default function Home() {
   // Hero slider images
   const heroImages = [
     "/Current_The cross/Cross_7.jpg",
-    
+    "/Current_The cross/Cross_1.jpg",
+    "/Current_The cross/Cross_4.jpg",
+    "/Current_The cross/Cross_5.jpg",
   ]
 
   return (

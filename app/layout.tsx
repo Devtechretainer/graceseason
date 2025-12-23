@@ -9,7 +9,7 @@ import { Suspense } from "react"
 import { poppins, playfair } from "@/lib/fonts"
 
 export const metadata = {
-  title: "Grace Season (Gszn)",
+  title: "Grace Season",
   description: "A Ghana-based fashion and lifestyle brand inspired by biblical storytelling and reimagined through contemporary design",
     generator: 'v0.app'
 }
