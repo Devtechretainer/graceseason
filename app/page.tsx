@@ -621,6 +621,59 @@ export default function Home() {
             </div>
           </section>
         </AnimatedSection>
+
+        {/* Video Section at Bottom */}
+        <section className="relative w-full h-screen min-h-[600px] overflow-hidden">
+          <video
+            className="absolute top-0 left-0 w-full h-full object-cover"
+            autoPlay
+            loop
+            muted
+            playsInline
+          >
+            <source src="/video/lv_0_20251014163517.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="container px-4 md:px-6 text-center"
+            >
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-tighter mb-4 text-white"
+              >
+                Discover Your Style
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                className="text-base md:text-lg lg:text-xl text-white/80 max-w-2xl mx-auto mb-8"
+              >
+                Experience fashion that speaks to your faith and celebrates your unique story
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+              >
+                <Button asChild size="lg" className="rounded-full px-8">
+                  <Link href="/shop">Shop Collection</Link>
+                </Button>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
       </div>
     </div>
   )
