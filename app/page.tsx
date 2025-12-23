@@ -240,7 +240,7 @@ export default function Home() {
             <div className="container px-4 md:px-6">
               <motion.h2 
                 variants={fadeInScale}
-                className="text-2xl md:text-3xl font-display font-bold text-center mb-10"
+                className="text-xl md:text-2xl font-display font-bold text-center mb-10"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
@@ -437,13 +437,13 @@ export default function Home() {
                 className="text-center mb-12"
               >
                 <motion.h2 
-                  className="text-3xl md:text-4xl font-display font-bold mb-4"
+                  className="text-2xl md:text-3xl font-display font-bold mb-4"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
                 >
                   Season Highlights
                 </motion.h2>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                <p className="text-base text-muted-foreground max-w-2xl mx-auto">
                   Discover our latest collections featuring ready-to-wear apparel, cotton essentials, and lifestyle merchandise
                 </p>
               </motion.div>
