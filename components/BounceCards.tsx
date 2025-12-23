@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { gsap } from 'gsap'
 import './BounceCards.css'
 
@@ -33,18 +33,33 @@ export default function BounceCards({
   ],
   enableHover = false
 }: BounceCardsProps) {
+  const [isMounted, setIsMounted] = useState(false)
+
   useEffect(() => {
-    gsap.fromTo(
-      '.bounce-card',
-      { scale: 0 },
-      {
-        scale: 1,
-        stagger: animationStagger,
-        ease: easeType,
-        delay: animationDelay
-      }
-    )
-  }, [animationStagger, easeType, animationDelay])
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!isMounted || typeof window === 'undefined') return
+    
+    // Use more specific selector to avoid conflicts
+    const container = document.querySelector(`.bounceCardsWrapper${className ? `.${className.replace(/\s+/g, '.')}` : ''}`)
+    if (!container) return
+    
+    const cards = container.querySelectorAll('.bounce-card')
+    
+    // Set initial state to match server
+    gsap.set(cards, { scale: 0, opacity: 0 })
+    
+    // Animate in
+    gsap.to(cards, {
+      scale: 1,
+      opacity: 1,
+      stagger: animationStagger,
+      ease: easeType,
+      delay: animationDelay
+    })
+  }, [isMounted, animationStagger, easeType, animationDelay, className])
 
   const getNoRotationTransform = (transformStr: string): string => {
     const hasRotate = /rotate\([\s\S]*?\)/.test(transformStr)

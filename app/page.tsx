@@ -110,8 +110,23 @@ export default function Home() {
     setIsClient(true)
   }, [])
 
+  // Don't render until client-side to avoid hydration mismatch
   if (!isClient) {
-    return null
+    return (
+      <div className="flex flex-col min-h-screen">
+        <div className="bg-black text-white text-center py-2 px-4 text-sm font-medium">
+          <Link href="/shop" className="hover:underline">
+            NEW COLLECTION IS HERE - SHOP NOW
+          </Link>
+        </div>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-4xl font-display font-bold mb-4">Grace Season</h1>
+            <p className="text-lg text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   // Use categories from product data, limit to first 6 for homepage
