@@ -13,10 +13,7 @@ export const metadata = {
   description: "A Ghana-based fashion and lifestyle brand inspired by biblical storytelling and reimagined through contemporary design",
   generator: 'v0.app',
   icons: {
-    icon: [
-      { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },
-      { url: '/icon-dark-32x32.png', media: '(prefers-color-scheme: dark)' },
-    ],
+    icon: '/icon.png',
     apple: '/apple-icon.png',
   },
 }
