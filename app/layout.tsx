@@ -27,6 +27,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <GoogleAnalytics />
+        <link rel="icon" href="/Logo.png" sizes="any" />
+        <link rel="apple-touch-icon" href="/Logo.png" />
       </head>
       <body className={`${poppins.variable} ${playfair.variable} ${poppins.className} font-sans dark bg-background min-h-screen flex flex-col`}>
         <Providers>
