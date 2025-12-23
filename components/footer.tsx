@@ -157,19 +157,6 @@ export default function Footer() {
           <p>© {currentYear} Grace Season. All rights reserved.</p>
         </div>
       </div>
-
-      {/* Circular Gallery at bottom of footer */}
-      {isMounted && (
-        <div className="w-full" style={{ height: '600px', position: 'relative', marginTop: '2rem' }}>
-          <CircularGallery 
-            items={crossGalleryItems}
-            bend={3}
-            textColor="#ffffff"
-            borderRadius={0.05}
-            scrollEase={0.02}
-          />
-        </div>
-      )}
     </footer>
   )
 }
