@@ -12,11 +12,13 @@ import { fallbackProducts } from "@/lib/product-data"
 import { ClimbingBoxLoader } from "react-spinners"
 import { formatPrice } from "@/lib/shopify-utils"
 import { trackEvent } from "@/components/google-analytics"
+import { useCurrency } from "@/contexts/CurrencyContext"
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const router = useRouter()
   const { addItem } = useCart()
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist()
+  const { currency, convertPrice } = useCurrency()
 
   const [product, setProduct] = useState(fallbackProducts.find((p) => p.id === params.id))
   const [isLoading, setIsLoading] = useState(true)
@@ -175,7 +177,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             </Button>
           </div>
 
-          <p className="text-xl font-semibold mb-4">{formatPrice(product.price)}</p>
+          <p className="text-xl font-semibold mb-4">{formatPrice(convertPrice(product.price), currency)}</p>
           <p className="text-muted-foreground mb-4">{product.description}</p>
 
           {product.details && (

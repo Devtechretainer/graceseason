@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
+import { CurrencySelector } from "@/components/CurrencySelector"
 
 // Animation variants
 const itemVariants = {
@@ -147,7 +148,9 @@ export default function Navbar() {
             </Button>
           </Link>
 
-           <Link href={isAuthenticated ? "/account" : "/login"}>
+           <CurrencySelector />
+
+          <Link href={isAuthenticated ? "/account" : "/login"}>
             <Button variant="ghost" size="icon" className="relative">
               <User className="h-5 w-5" />
               <span className="sr-only">Account</span>

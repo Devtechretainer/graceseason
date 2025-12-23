@@ -8,9 +8,11 @@ import Link from "next/link"
 import { useState } from "react"
 import { formatPrice } from "@/lib/shopify-utils"
 import { useRouter } from "next/navigation"
+import { useCurrency } from "@/contexts/CurrencyContext"
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, subtotal, clearCart } = useCart()
+  const { currency, convertPrice } = useCurrency()
   const [isCheckingOut, setIsCheckingOut] = useState(false)
   const router = useRouter()
 
@@ -54,7 +56,7 @@ export default function CartPage() {
                 <div className="flex-1 min-w-0">
                   <h3 className="font-medium truncate">{item.name}</h3>
                   <p className="text-sm text-muted-foreground">Size: {item.size}</p>
-                  <p className="text-sm font-medium">{formatPrice(item.price)}</p>
+                  <p className="text-sm font-medium">{formatPrice(convertPrice(item.price), currency)}</p>
 
                   <div className="flex items-center gap-4 mt-2">
                     <div className="flex items-center">
@@ -104,7 +106,7 @@ export default function CartPage() {
             <div className="space-y-2 mb-4">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span>{formatPrice(subtotal)}</span>
+                <span>{formatPrice(convertPrice(subtotal), currency)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Shipping</span>
@@ -115,7 +117,7 @@ export default function CartPage() {
             <div className="border-t border-border pt-4 mb-6">
               <div className="flex justify-between font-semibold">
                 <span>Total</span>
-                <span>{formatPrice(subtotal)}</span>
+                <span>{formatPrice(convertPrice(subtotal), currency)}</span>
               </div>
             </div>
 

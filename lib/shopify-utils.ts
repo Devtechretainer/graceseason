@@ -69,11 +69,13 @@ function stripHtmlTags(html: string): string {
   return html.replace(/<[^>]*>?/gm, "")
 }
 
-// Format price in Ghanaian Cedi
-export function formatPrice(price: number): string {
-  return new Intl.NumberFormat("en-GH", {
+// Format price with currency support
+export function formatPrice(price: number, currency: "GHS" | "USD" = "GHS"): string {
+  const locale = currency === "USD" ? "en-US" : "en-GH"
+  
+  return new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "GHS",
+    currency: currency,
     maximumFractionDigits: 2,
   }).format(price)
 }

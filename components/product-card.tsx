@@ -10,6 +10,7 @@ import { useWishlist } from "@/hooks/use-wishlist"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { formatPrice } from "@/lib/shopify-utils"
+import { useCurrency } from "@/contexts/CurrencyContext"
 
 type ProductCardProps = {
   product: {
@@ -25,6 +26,7 @@ type ProductCardProps = {
 
 export default function ProductCard({ product, className }: ProductCardProps) {
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist()
+  const { currency, convertPrice } = useCurrency()
   const [isHovered, setIsHovered] = useState(false)
 
   const isFavorite = isInWishlist(product.id)
@@ -81,7 +83,7 @@ export default function ProductCard({ product, className }: ProductCardProps) {
       </div>
 
       <h3 className="font-medium">{product.name}</h3>
-      <p className="text-muted-foreground">{formatPrice(product.price)}</p>
+      <p className="text-muted-foreground">{formatPrice(convertPrice(product.price), currency)}</p>
     </Link>
   )
 }

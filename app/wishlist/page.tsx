@@ -8,10 +8,12 @@ import { Trash2 } from "lucide-react"
 import { useCart } from "@/hooks/use-cart"
 import { useState } from "react"
 import { formatPrice } from "@/lib/shopify-utils"
+import { useCurrency } from "@/contexts/CurrencyContext"
 
 export default function WishlistPage() {
   const { wishlistItems, removeFromWishlist, clearWishlist } = useWishlist()
   const { addItem } = useCart()
+  const { currency, convertPrice } = useCurrency()
   const [addingToCart, setAddingToCart] = useState<string | null>(null)
 
   const handleAddToCart = (item: any) => {
@@ -67,7 +69,7 @@ export default function WishlistPage() {
 
             <div className="flex-1 min-w-0">
               <h3 className="font-medium truncate">{item.name}</h3>
-              <p className="text-sm font-medium">{formatPrice(item.price)}</p>
+              <p className="text-sm font-medium">{formatPrice(convertPrice(item.price), currency)}</p>
               {item.category && <p className="text-sm text-muted-foreground">Category: {item.category}</p>}
 
               <div className="flex items-center gap-4 mt-2">
