@@ -196,22 +196,22 @@ export default function Home() {
                       transition={{ duration: 0.8, ease: "easeOut" }}
                       className="container px-4 md:px-6 text-center relative z-10"
                     >
-                      <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                        className="text-4xl md:text-6xl font-display font-bold tracking-tighter mb-4 text-white"
-                      >
-                        Grace Season
-                      </motion.h1>
-                      <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                        className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8"
-                      >
-                        Wear Your Faith. Tell Your Story.
-                      </motion.p>
+                             <motion.h1
+                               initial={{ opacity: 0, y: 20 }}
+                               animate={{ opacity: 1, y: 0 }}
+                               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                               className="text-3xl md:text-4xl font-display font-bold tracking-tighter mb-4 text-white"
+                             >
+                               Grace Season
+                             </motion.h1>
+                             <motion.p
+                               initial={{ opacity: 0, y: 20 }}
+                               animate={{ opacity: 1, y: 0 }}
+                               transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                               className="text-base md:text-lg text-white/80 max-w-2xl mx-auto mb-8"
+                             >
+                               Wear Your Faith. Tell Your Story.
+                             </motion.p>
                       <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -349,7 +349,7 @@ export default function Home() {
                           }}
                         />
                         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all duration-300 flex items-center justify-center">
-                          <h3 className="text-xl font-semibold text-white font-display group-hover:scale-105 transition-transform duration-300">
+                                 <h3 className="text-lg font-semibold text-white font-display group-hover:scale-105 transition-transform duration-300">
                             {category.name}
                           </h3>
                         </div>
@@ -397,22 +397,22 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="container relative z-10 px-4 md:px-6 text-center"
           >
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl md:text-5xl font-display font-bold tracking-tighter mb-4 text-white"
-            >
-              Elevate Your Style
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8"
-            >
+                   <motion.h2
+                     initial={{ opacity: 0, y: 20 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     viewport={{ once: true }}
+                     transition={{ duration: 0.8, delay: 0.2 }}
+                     className="text-3xl md:text-4xl font-display font-bold tracking-tighter mb-4 text-white"
+                   >
+                     Elevate Your Style
+                   </motion.h2>
+                   <motion.p
+                     initial={{ opacity: 0, y: 20 }}
+                     whileInView={{ opacity: 1, y: 0 }}
+                     viewport={{ once: true }}
+                     transition={{ duration: 0.8, delay: 0.4 }}
+                     className="text-base md:text-lg text-white/80 max-w-2xl mx-auto mb-8"
+                   >
               Ready-to-wear apparel and lifestyle merchandise with a story of faith, creativity, and style
             </motion.p>
             <motion.div
@@ -474,7 +474,7 @@ export default function Home() {
                         />
                         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all duration-300" />
                         <div className="absolute inset-0 flex items-end p-6">
-                          <h3 className="text-2xl font-display font-bold text-white group-hover:translate-y-[-8px] transition-transform duration-300">
+                                 <h3 className="text-xl font-display font-bold text-white group-hover:translate-y-[-8px] transition-transform duration-300">
                             {category.name}
                           </h3>
                         </div>
@@ -538,8 +538,8 @@ export default function Home() {
                 variants={fadeInUp}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Shirt Collection</h2>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                <h2 className="text-2xl md:text-3xl font-display font-bold mb-4">Shirt Collection</h2>
+                <p className="text-base text-muted-foreground max-w-2xl mx-auto">
                   Premium shirts crafted with quality materials and contemporary design
                 </p>
               </motion.div>
@@ -572,7 +572,7 @@ export default function Home() {
                         />
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
                         <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <p className="text-white font-semibold text-lg">View Collection</p>
+                               <p className="text-white font-semibold text-base">View Collection</p>
                         </div>
                       </div>
                     </Link>
