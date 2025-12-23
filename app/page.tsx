@@ -78,7 +78,7 @@ export default function Home() {
                     src={img}
                     alt={`Grace Season Collection ${index + 1}`}
                     fill
-                    className="object-cover md:object-cover object-center"
+                    className="object-cover object-center"
                     priority={index === 0}
                     sizes="100vw"
                     quality={90}
@@ -192,7 +192,7 @@ export default function Home() {
               src="/Current_The cross/Cross_7.jpg"
               alt="Grace Season Collection - The Cross"
               fill
-              className="object-cover object-center md:object-cover"
+              className="object-cover object-center"
               sizes="100vw"
               quality={90}
               priority
