@@ -14,6 +14,8 @@ import { useAuth } from "@/contexts/auth-context"
 import { ProtectedRoute } from "@/components/protected-route"
 import { getAddressFromPincode, countryCodes, indianStates } from "@/lib/pincode-service"
 import { trackBeginCheckout, trackPurchase } from "@/components/google-analytics"
+import { useCurrency } from "@/contexts/CurrencyContext"
+import { formatPrice } from "@/lib/shopify-utils"
 
 // Define the Razorpay interface
 declare global {
@@ -26,6 +28,7 @@ export default function CheckoutPage() {
   const router = useRouter()
   const { items, clearCart, subtotal } = useCart()
   const { user } = useAuth()
+  const { currency, convertPrice } = useCurrency()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -328,16 +331,16 @@ export default function CheckoutPage() {
                         <span>
                           {item.name} ({item.size}) x {item.quantity}
                         </span>
-                        <span>₹{(item.price * item.quantity).toFixed(2)}</span>
+                        <span>{formatPrice(convertPrice(item.price * item.quantity), currency)}</span>
                       </div>
                     ))}
                     <div className="border-t border-zinc-700 my-2 pt-2 font-bold flex justify-between">
                       <span>Total:</span>
-                      <span>₹{calculateTotal().toFixed(2)}</span>
+                      <span>{formatPrice(convertPrice(calculateTotal()), currency)}</span>
                     </div>
                   </>
                 ) : (
-                  <p>No items in cart. Total: ₹5.00 (Test)</p>
+                  <p>No items in cart. Total: {formatPrice(convertPrice(5), currency)} (Test)</p>
                 )}
               </div>
             </div>
@@ -488,7 +491,7 @@ export default function CheckoutPage() {
                   className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={loading || orderProcessing}
                 >
-                  {loading ? "Processing..." : `Pay ₹${calculateTotal().toFixed(2)} via UPI`}
+                  {loading ? "Processing..." : `Pay ${formatPrice(convertPrice(calculateTotal()), currency)}`}
                 </Button>
               </form>
             </div>
