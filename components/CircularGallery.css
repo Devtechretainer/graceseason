@@ -3,9 +3,23 @@
   height: 100%;
   overflow: hidden;
   cursor: grab;
+  position: relative;
 }
 
 .circular-gallery:active {
   cursor: grabbing;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .circular-gallery {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 640px) {
+  .circular-gallery {
+    min-height: 350px;
+  }
 }
 

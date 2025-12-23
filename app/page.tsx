@@ -620,8 +620,8 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="w-full mb-12"
-                style={{ height: '600px', position: 'relative' }}
+                className="w-full mb-12 h-[400px] md:h-[500px] lg:h-[600px]"
+                style={{ position: 'relative' }}
               >
                 <CircularGallery 
                   items={crossGalleryItems}

@@ -365,7 +365,12 @@ class Media {
         this.plane.program.uniforms.uViewportSizes.value = [this.viewport.width, this.viewport.height]
       }
     }
-    this.scale = this.screen.height / 1500
+    // Responsive scaling - adjust based on screen width
+    const isMobile = this.screen.width < 768
+    const isTablet = this.screen.width >= 768 && this.screen.width < 1024
+    const scaleMultiplier = isMobile ? 0.7 : isTablet ? 0.85 : 1
+    
+    this.scale = (this.screen.height / 1500) * scaleMultiplier
     this.plane.scale.y = (this.viewport.height * (900 * this.scale)) / this.screen.height
     this.plane.scale.x = (this.viewport.width * (700 * this.scale)) / this.screen.width
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y]
@@ -617,21 +622,33 @@ export default function CircularGallery({
   scrollEase = 0.02
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  
   useEffect(() => {
     if (!containerRef.current || typeof window === 'undefined') return
+    
+    // Adjust props based on screen size for better mobile experience
+    const isMobile = window.innerWidth < 768
+    const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024
+    
+    const adjustedBend = isMobile ? bend * 0.6 : isTablet ? bend * 0.8 : bend
+    const adjustedFont = isMobile ? 'bold 24px Figtree' : isTablet ? 'bold 27px Figtree' : font
+    const adjustedScrollSpeed = isMobile ? scrollSpeed * 1.2 : scrollSpeed
+    
     const app = new App(containerRef.current, {
       items,
-      bend,
+      bend: adjustedBend,
       textColor,
       borderRadius,
-      font,
-      scrollSpeed,
+      font: adjustedFont,
+      scrollSpeed: adjustedScrollSpeed,
       scrollEase
     })
+    
     return () => {
       app.destroy()
     }
   }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase])
+  
   return <div className="circular-gallery" ref={containerRef} />
 }
 
