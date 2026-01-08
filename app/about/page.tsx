@@ -2,6 +2,9 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
 
+// Easy to change team image - just update the path here
+const TEAM_IMAGE = "/team.png"
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
@@ -51,12 +54,31 @@ export default function AboutPage() {
           </div>
 
           {/* Founder image */}
-          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 shadow-2xl max-h-[500px]">
+          <div className="relative aspect-[4/3] overflow-hidden max-h-[500px]">
             <Image
-              src="/founder.jpg"
+              src="/Konadu Bright.png"
               alt="Konadu Bright - Founder of Grace Season"
               fill
-              className="object-cover object-center"
+              className="object-contain object-center"
+              priority
+            />
+          </div>
+        </div>
+
+        {/* Team Section */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Our Team</h2>
+            <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+              Meet the dedicated individuals behind Grace Season, working together to bring our vision to life.
+            </p>
+          </div>
+          <div className="relative w-full aspect-[16/9] max-h-[600px] overflow-hidden">
+            <Image
+              src={TEAM_IMAGE}
+              alt="Grace Season Team"
+              fill
+              className="object-contain object-center"
               priority
             />
           </div>

@@ -111,7 +111,7 @@ const generateProducts = (): Product[] => {
   })
 
   // First Collection (T-shirts - 150 GHS)
-  const firstCollection = ["1stcol_2.jpg", "1stcol_4.jpg", "1stcol_6.jpg"]
+  const firstCollection = ["1stcol_2.jpg", "1stcol_4.jpg"]
   firstCollection.forEach((img) => {
     const name = createProductName(img, "First Collection")
     if (name) {
@@ -262,29 +262,21 @@ const generateProducts = (): Product[] => {
     }
   })
 
-  // Shirts (T-shirts = 150 GHS, Zip shirts = 200 GHS)
-  const shirts = ["sh_4.jpg", "sh_5.jpg", "sh_6.jpg"]
-  shirts.forEach((img) => {
-    const name = createProductName(img, "Shirts")
-    if (name) {
-      // Check if it's a zip shirt - adjust logic based on actual images
-      // For now, defaulting all shirts to 150 (t-shirts)
-      // If you have zip shirts, update the condition or filename pattern
-      const isZipShirt = name.toLowerCase().includes("zip") || img.toLowerCase().includes("zip")
-      const price = isZipShirt ? 200 : 150
-      
-      products.push({
-        id: (productId++).toString(),
-        name: `${name} - ${isZipShirt ? 'Zip Shirt' : 'Shirt'}`,
-        price: price,
-        description: `Premium ${isZipShirt ? 'zip shirt' : 'shirt'} from Grace Season. Versatile piece that can be dressed up or down, perfect for any occasion.`,
-        details: `Quality ${isZipShirt ? 'zip shirt' : 'shirt'} featuring contemporary design and comfortable fit. Part of our ready-to-wear apparel collection.`,
-        sizes: ["XS", "S", "M", "L", "XL"],
-        image: `/Shirt/${img}`,
-        images: [`/Shirt/${img}`],
-        category: "Shirts",
-      })
-    }
+  // Shirts - All "Into the Wild" collection (200 GHS each)
+  // All shirts in the Shirt folder are part of the "Into the Wild" collection
+  const intoTheWildShirts = ["sh_4.jpg", "sh_5.jpg", "sh_6.jpg"]
+  intoTheWildShirts.forEach((img) => {
+    products.push({
+      id: (productId++).toString(),
+      name: "Into the Wild - Shirt",
+      price: 200,
+      description: `Into the Wild shirt from Grace Season. A bold piece inspired by adventure and faith, featuring contemporary design.`,
+      details: `Premium shirt featuring the "Into the Wild" design. Crafted with quality materials and attention to detail. Part of our ready-to-wear apparel collection.`,
+      sizes: ["XS", "S", "M", "L", "XL"],
+      image: `/Shirt/${img}`,
+      images: [`/Shirt/${img}`],
+      category: "Shirts",
+    })
   })
 
   // Sweatshirt/Hoodies (200 GHS)
@@ -326,7 +318,7 @@ const generateProducts = (): Product[] => {
   })
 
   // Time & Chance (T-shirts - 150 GHS)
-  const timeChance = ["t&c_0.jpg", "t&c_1.jpg", "t&c_2.jpg", "t&c_3.jpg", "t&c_4.jpg", "t&c_5.jpg", "t&c_6.jpg", "t&c_7.jpg"]
+  const timeChance = ["t&c_0.jpg", "t&c_1.jpg", "t&c_2.jpg", "t&c_3.jpg", "t&c_4.jpg", "t&c_6.jpg", "t&c_7.jpg"]
   timeChance.forEach((img) => {
     const name = createProductName(img, "Time & Chance")
     if (name) {
