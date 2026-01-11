@@ -88,9 +88,8 @@ const generateProducts = (): Product[] => {
     const name = createProductName(img, "The Cross")
     if (name) {
       // Default to 250 (top only) - adjust specific items to 400 if they're full outfits
-      // You can identify full outfits by checking the images or adjust the index-based logic
-      // For example, if Cross_7 and Cross_8 are full outfits:
-      const isFullOutfit = index >= 6 // Cross_7 and Cross_8 (indices 6 and 7) - adjust as needed
+      // Cross_5 (index 4), Cross_7 and Cross_8 (indices 6 and 7) are full outfits
+      const isFullOutfit = index === 4 || index >= 6 // Cross_5 (index 4), Cross_7 and Cross_8 (indices 6 and 7)
       const price = isFullOutfit ? 400 : 250
       
       products.push({
