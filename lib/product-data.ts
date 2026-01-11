@@ -43,13 +43,16 @@ const generateProducts = (): Product[] => {
   let productId = 1
 
   // Accessories (Tote bags and other accessories - 80 GHS)
-  const accessories = ["acc1.jpg", "acc3.jpg", "acc4.jpg"]
+  // Note: acc1.jpg is a Cap (handled separately below)
+  const accessories = ["acc3.jpg", "acc4.jpg"]
   accessories.forEach((img) => {
     const name = createProductName(img, "Accessories")
     if (name) {
+      // acc4.jpg is a tote bag
+      const isToteBag = img === "acc4.jpg"
       products.push({
         id: (productId++).toString(),
-        name: `${name} - Accessory`,
+        name: isToteBag ? "Tote Bag - Accessory" : `${name} - Accessory`,
         price: 80,
         description: `Premium accessory from Grace Season's Accessories collection. Each piece carries a story of faith, creativity, and style.`,
         details: `Handcrafted accessory featuring quality materials and contemporary design inspired by biblical storytelling.`,
@@ -59,6 +62,19 @@ const generateProducts = (): Product[] => {
         category: "Accessories",
       })
     }
+  })
+
+  // Cap (70 GHS)
+  products.push({
+    id: (productId++).toString(),
+    name: "Cap",
+    price: 70,
+    description: `Stylish cap from Grace Season. Perfect accessory to complete your look.`,
+    details: `Premium cap featuring quality materials and contemporary design.`,
+    sizes: ["One Size"],
+    image: "/Accessories/acc1.jpg",
+    images: ["/Accessories/acc1.jpg"],
+    category: "Caps",
   })
 
   // Caps (70 GHS) - even if not available, we'll add as placeholder
@@ -225,41 +241,65 @@ const generateProducts = (): Product[] => {
   })
 
   // Long Sleeves (200 GHS)
-  const longSleeves = ["sl_3.jpg", "sl_4.jpg", "sl_7.jpg"]
+  // Note: sl_7.jpg is "Into the Wild" (handled separately below)
+  const longSleeves = ["sl_3.jpg", "sl_4.jpg"]
   longSleeves.forEach((img) => {
-    const name = createProductName(img, "Long Sleeves")
-    if (name) {
-      products.push({
-        id: (productId++).toString(),
-        name: `${name} - Long Sleeve`,
-        price: 200,
-        description: `Premium long sleeve piece from Grace Season. Comfortable and stylish, perfect for all seasons.`,
-        details: `Crafted with quality materials and attention to detail. This long sleeve piece combines comfort with our signature contemporary design.`,
-        sizes: ["XS", "S", "M", "L", "XL"],
-        image: `/Long_Sleeves/${img}`,
-        images: [`/Long_Sleeves/${img}`],
-        category: "Long Sleeves",
-      })
-    }
+    products.push({
+      id: (productId++).toString(),
+      name: "Long Sleeve",
+      price: 200,
+      description: `Premium long sleeve piece from Grace Season. Comfortable and stylish, perfect for all seasons.`,
+      details: `Crafted with quality materials and attention to detail. This long sleeve piece combines comfort with our signature contemporary design.`,
+      sizes: ["XS", "S", "M", "L", "XL"],
+      image: `/Long_Sleeves/${img}`,
+      images: [`/Long_Sleeves/${img}`],
+      category: "Long Sleeves",
+    })
+  })
+
+  // Into the Wild - Long Sleeve (200 GHS)
+  products.push({
+    id: (productId++).toString(),
+    name: "Into the Wild - Long Sleeve",
+    price: 200,
+    description: `Into the Wild long sleeve from Grace Season. A bold piece inspired by adventure and faith, featuring contemporary design.`,
+    details: `Premium long sleeve featuring the "Into the Wild" design. Crafted with quality materials and attention to detail.`,
+    sizes: ["XS", "S", "M", "L", "XL"],
+    image: "/Long_Sleeves/sl_7.jpg",
+    images: ["/Long_Sleeves/sl_7.jpg"],
+    category: "Long Sleeves",
   })
 
   // Restoration (T-shirts - 150 GHS)
-  const restoration = ["rest_2.jpg", "rest_3.jpg", "rest_4.jpg"]
+  // Note: rest_2.jpg is a Hoodie (handled separately below)
+  const restoration = ["rest_3.jpg", "rest_4.jpg"]
   restoration.forEach((img) => {
-    const name = createProductName(img, "Restoration")
-    if (name) {
-      products.push({
-        id: (productId++).toString(),
-        name: `${name} - Restoration Collection`,
-        price: 150,
-        description: `From Grace Season's Restoration Collection. Pieces that represent renewal and faith through fashion.`,
-        details: `This Restoration piece embodies themes of renewal and restoration, crafted with contemporary design and quality materials.`,
-        sizes: ["XS", "S", "M", "L", "XL"],
-        image: `/Restoration/${img}`,
-        images: [`/Restoration/${img}`],
-        category: "Restoration",
-      })
-    }
+    // rest_4.jpg should not have "Rest 4" in the name
+    const productName = img === "rest_4.jpg" ? "Restoration Shirt" : "Restoration Collection"
+    products.push({
+      id: (productId++).toString(),
+      name: productName,
+      price: 150,
+      description: `From Grace Season's Restoration Collection. Pieces that represent renewal and faith through fashion.`,
+      details: `This Restoration piece embodies themes of renewal and restoration, crafted with contemporary design and quality materials.`,
+      sizes: ["XS", "S", "M", "L", "XL"],
+      image: `/Restoration/${img}`,
+      images: [`/Restoration/${img}`],
+      category: "Restoration",
+    })
+  })
+
+  // Restoration Hoodie (200 GHS)
+  products.push({
+    id: (productId++).toString(),
+    name: "Restoration Hoodie",
+    price: 200,
+    description: `Restoration hoodie from Grace Season. Comfortable and stylish, representing renewal and faith through fashion.`,
+    details: `Premium hoodie from the Restoration Collection. Crafted with quality materials and contemporary design.`,
+    sizes: ["XS", "S", "M", "L", "XL"],
+    image: "/Restoration/rest_2.jpg",
+    images: ["/Restoration/rest_2.jpg"],
+    category: "Hoodies & Sweaters",
   })
 
   // Shirts - All "Into the Wild" collection (200 GHS each)
@@ -375,7 +415,7 @@ export const categories = [
   {
     name: "Caps",
     slug: "Caps",
-    image: "/placeholder.svg?height=500&width=500", // Placeholder until caps are available
+    image: "/Accessories/acc1.jpg",
   },
   {
     name: "The Cross Collection",
