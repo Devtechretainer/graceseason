@@ -339,7 +339,9 @@ const generateProducts = (): Product[] => {
   })
 
   // The Ark Collection (T-shirts - 150 GHS)
-  const ark = ["ark_2.jpg", "ark_5.jpg", "ark_6.jpg"]
+  // Note: ark_2.jpg is "The Ark Hoodie" (handled separately below)
+  // Note: ark_5.jpg is "Into the Wild Shirt" (handled separately below)
+  const ark = ["ark_6.jpg"]
   ark.forEach((img) => {
     const name = createProductName(img, "The Ark")
     if (name) {
@@ -357,8 +359,36 @@ const generateProducts = (): Product[] => {
     }
   })
 
+  // The Ark Hoodie (200 GHS)
+  products.push({
+    id: (productId++).toString(),
+    name: "The Ark Hoodie",
+    price: 200,
+    description: `The Ark hoodie from Grace Season. Comfortable and stylish, part of The Ark Collection.`,
+    details: `Premium hoodie from The Ark Collection. Crafted with quality materials and contemporary design, representing faith, protection, and journey.`,
+    sizes: ["XS", "S", "M", "L", "XL"],
+    image: "/The_Ark_Collection/ark_2.jpg",
+    images: ["/The_Ark_Collection/ark_2.jpg"],
+    category: "Hoodies & Sweaters",
+  })
+
+  // Into the Wild Shirt from The Ark Collection (150 GHS)
+  products.push({
+    id: (productId++).toString(),
+    name: "Into the Wild Shirt",
+    price: 150,
+    description: `Into the Wild shirt from Grace Season's The Ark Collection. A bold piece inspired by adventure and faith.`,
+    details: `Premium shirt featuring the "Into the Wild" design from The Ark Collection. Crafted with quality materials and attention to detail.`,
+    sizes: ["XS", "S", "M", "L", "XL"],
+    image: "/The_Ark_Collection/ark_5.jpg",
+    images: ["/The_Ark_Collection/ark_5.jpg"],
+    category: "Shirts",
+  })
+
   // Time & Chance (T-shirts - 150 GHS)
-  const timeChance = ["t&c_0.jpg", "t&c_1.jpg", "t&c_2.jpg", "t&c_3.jpg", "t&c_4.jpg", "t&c_6.jpg", "t&c_7.jpg"]
+  // Note: t&c_1.jpg is "Time & Chance Tote Bag" (handled separately below)
+  // Note: t&c_2.jpg is "Time & Chance Cap" (handled separately below)
+  const timeChance = ["t&c_0.jpg", "t&c_3.jpg", "t&c_4.jpg", "t&c_6.jpg", "t&c_7.jpg"]
   timeChance.forEach((img) => {
     const name = createProductName(img, "Time & Chance")
     if (name) {
@@ -374,6 +404,32 @@ const generateProducts = (): Product[] => {
         category: "Time & Chance",
       })
     }
+  })
+
+  // Time & Chance Tote Bag (80 GHS)
+  products.push({
+    id: (productId++).toString(),
+    name: "Time & Chance Tote Bag",
+    price: 80,
+    description: `Time & Chance tote bag from Grace Season. Perfect accessory to complete your look.`,
+    details: `Premium tote bag from the Time & Chance Collection. Handcrafted with quality materials and contemporary design.`,
+    sizes: ["One Size"],
+    image: "/Time & chance/t&c_1.jpg",
+    images: ["/Time & chance/t&c_1.jpg"],
+    category: "Accessories",
+  })
+
+  // Time & Chance Cap (80 GHS)
+  products.push({
+    id: (productId++).toString(),
+    name: "Time & Chance Cap",
+    price: 80,
+    description: `Time & Chance cap from Grace Season. Stylish accessory from the Time & Chance Collection.`,
+    details: `Premium cap from the Time & Chance Collection. Featuring quality materials and contemporary design.`,
+    sizes: ["One Size"],
+    image: "/Time & chance/t&c_2.jpg",
+    images: ["/Time & chance/t&c_2.jpg"],
+    category: "Caps",
   })
 
   // Add Caps category (70 GHS) - placeholder for future availability

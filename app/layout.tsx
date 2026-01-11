@@ -13,8 +13,8 @@ export const metadata = {
   description: "A Ghana-based fashion and lifestyle brand inspired by biblical storytelling and reimagined through contemporary design",
   generator: 'v0.app',
   icons: {
-    icon: '/Logo-removebg-preview.png',
-    apple: '/Logo-removebg-preview.png',
+    icon: '/unnamed-removebg-preview.png',
+    apple: '/unnamed-removebg-preview.png',
   },
 }
 
@@ -27,8 +27,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <GoogleAnalytics />
-        <link rel="icon" href="/Logo-removebg-preview.png" sizes="any" />
-        <link rel="apple-touch-icon" href="/Logo-removebg-preview.png" />
+        <link rel="icon" href="/unnamed-removebg-preview.png" sizes="any" />
+        <link rel="apple-touch-icon" href="/unnamed-removebg-preview.png" />
       </head>
       <body className={`${poppins.variable} ${playfair.variable} ${poppins.className} font-sans dark bg-background min-h-screen flex flex-col`}>
         <Providers>

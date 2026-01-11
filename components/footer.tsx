@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="block mb-4">
               <Image
-                src="/Logo-removebg-preview.png"
+                src="/unnamed-removebg-preview.png"
                 alt="Grace Season"
                 width={140}
                 height={46}

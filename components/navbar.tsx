@@ -87,7 +87,7 @@ export default function Navbar() {
       <div className="container flex items-center justify-between h-16 px-4 md:px-6">
         <Link href="/" className="flex items-center">
           <Image
-            src="/Logo-removebg-preview.png"
+            src="/unnamed-removebg-preview.png"
             alt="Grace Season"
             width={120}
             height={40}
