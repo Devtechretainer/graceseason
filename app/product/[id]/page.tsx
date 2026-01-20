@@ -247,10 +247,6 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 <h3 className="font-medium mb-1">Category</h3>
                 <p className="text-muted-foreground">{product.category}</p>
               </div>
-              <div>
-                <h3 className="font-medium mb-1">Condition</h3>
-                <p className="text-muted-foreground">Good - Gently Used</p>
-              </div>
             </div>
           </div>
         </div>

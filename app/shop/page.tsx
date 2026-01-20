@@ -125,7 +125,10 @@ export default function ShopPage() {
                       className={`block text-left px-2 py-1 w-full rounded-md ${
                         selectedCategory === category ? "bg-primary text-primary-foreground" : "hover:bg-secondary"
                       }`}
-                      onClick={() => setSelectedCategory(category)}
+                      onClick={() => {
+                        setSelectedCategory(category)
+                        setIsFilterOpen(false)
+                      }}
                     >
                       {category}
                     </button>
