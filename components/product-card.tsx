@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Heart, MessageCircle } from "lucide-react"
+import { Heart } from "lucide-react"
 import { useWishlist } from "@/hooks/use-wishlist"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -52,57 +52,38 @@ export default function ProductCard({ product, className }: ProductCardProps) {
     }
   }
 
-  const handleWhatsAppClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    const message = encodeURIComponent(`Hello! I'm interested in: ${product.name} - ${formatPrice(convertPrice(product.price), currency)}`)
-    window.open(`https://wa.me/233503338796?text=${message}`, '_blank')
-  }
-
   return (
-    <div className={cn("group block relative", className)}>
-      <Link
-        href={`/product/${product.id}`}
-        className="block"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div className="relative aspect-square overflow-hidden rounded-lg mb-3">
-          <Image
-            src={displayImage || "/placeholder.svg"}
-            alt={product.name}
-            fill
-            className={cn("object-cover transition-transform duration-300", isHovered ? "scale-110" : "scale-100")}
+    <Link
+      href={`/product/${product.id}`}
+      className={cn("group block relative", className)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="relative aspect-square overflow-hidden rounded-lg mb-3">
+        <Image
+          src={displayImage || "/placeholder.svg"}
+          alt={product.name}
+          fill
+          className={cn("object-cover transition-transform duration-300", isHovered ? "scale-110" : "scale-100")}
+        />
+
+        <Button
+          variant="ghost"
+          size="icon"
+          className={cn(
+            "absolute top-2 right-2 h-8 w-8 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-opacity z-10",
+            isHovered || isFavorite ? "opacity-100" : "opacity-0",
+          )}
+          onClick={toggleWishlist}
+        >
+          <Heart
+            className={cn("h-4 w-4 transition-colors", isFavorite ? "fill-red-500 text-red-500" : "text-gray-600")}
           />
+        </Button>
+      </div>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn(
-              "absolute top-2 right-2 h-8 w-8 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-opacity z-10",
-              isHovered || isFavorite ? "opacity-100" : "opacity-0",
-            )}
-            onClick={toggleWishlist}
-          >
-            <Heart
-              className={cn("h-4 w-4 transition-colors", isFavorite ? "fill-red-500 text-red-500" : "text-gray-600")}
-            />
-          </Button>
-        </div>
-
-        <h3 className="font-medium mb-1 line-clamp-2">{product.name}</h3>
-        <p className="text-muted-foreground mb-3">{formatPrice(convertPrice(product.price), currency)}</p>
-      </Link>
-
-      {/* WhatsApp Button */}
-      <Button
-        onClick={handleWhatsAppClick}
-        className="w-full bg-[#25D366] hover:bg-[#20BA5A] text-white"
-        size="sm"
-      >
-        <MessageCircle className="h-4 w-4 mr-2" />
-        Contact via WhatsApp
-      </Button>
-    </div>
+      <h3 className="font-medium mb-1 line-clamp-2">{product.name}</h3>
+      <p className="text-muted-foreground">{formatPrice(convertPrice(product.price), currency)}</p>
+    </Link>
   )
 }

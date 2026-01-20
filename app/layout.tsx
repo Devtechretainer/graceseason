@@ -4,6 +4,7 @@ import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import { Providers } from "./providers"
 import AIChatbot from "@/components/ai-chatbot"
+import WhatsAppButton from "@/components/whatsapp-button"
 import GoogleAnalytics from "@/components/google-analytics"
 import { Suspense } from "react"
 import { poppins, playfair } from "@/lib/fonts"
@@ -37,6 +38,7 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer />
             <AIChatbot />
+            <WhatsAppButton />
           </Suspense>
         </Providers>
       </body>
