@@ -35,8 +35,8 @@ export default function RootLayout({
       <body className={`${poppins.variable} ${playfair.variable} ${poppins.className} font-sans dark bg-background min-h-screen flex flex-col`}>
         <Providers>
           <Suspense fallback={<div>Loading...</div>}>
-            {/* Scrolling Announcement Banner */}
-            <div className="bg-black text-white py-2 overflow-hidden relative z-50">
+            {/* Scrolling Announcement Banner - Above Navbar */}
+            <div className="bg-black text-white py-2 overflow-hidden relative z-[60] w-full">
               <div className="flex whitespace-nowrap animate-scroll">
                 <Link href="/shop" className="inline-block hover:underline text-sm font-medium px-8">
                   NEW COLLECTION IS HERE - SHOP NOW
