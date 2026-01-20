@@ -162,13 +162,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Top Announcement Banner */}
-      <div className="bg-black text-white text-center py-2 px-4 text-sm font-medium">
-        <Link href="/shop" className="hover:underline">
-          NEW COLLECTION IS HERE - SHOP NOW
-        </Link>
-      </div>
-
       {/* Hero Section with Video */}
       <section className="relative w-full h-screen min-h-[600px] overflow-hidden">
         <video
