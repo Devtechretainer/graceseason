@@ -19,9 +19,10 @@ export default function ShippingPolicyPage() {
           <h2 className="text-2xl font-semibold mb-4">Shipping Methods & Delivery Times</h2>
           <div className="space-y-4">
             <div>
-              <h3 className="text-xl font-medium mb-2">Domestic Shipping (India)</h3>
+              <h3 className="text-xl font-medium mb-2">Domestic Shipping (Ghana)</h3>
               <ul className="list-disc pl-6 text-muted-foreground space-y-2">
-                <li>Standard Shipping: 3-5 business days</li>
+                <li>Within Sunyani: 1-2 business days</li>
+                <li>Standard Shipping (other regions): 3-5 business days</li>
                 <li>Express Shipping: 1-2 business days (available at checkout for an additional fee)</li>
               </ul>
             </div>
@@ -45,11 +46,12 @@ export default function ShippingPolicyPage() {
           </p>
           <div className="space-y-4">
             <div>
-              <h3 className="text-xl font-medium mb-2">Domestic Shipping (India)</h3>
+              <h3 className="text-xl font-medium mb-2">Domestic Shipping (Ghana)</h3>
               <ul className="list-disc pl-6 text-muted-foreground space-y-2">
-                <li>Orders over ₹1500: Free standard shipping</li>
-                <li>Orders under ₹1500: ₹150 for standard shipping</li>
-                <li>Express shipping: Additional ₹250</li>
+                <li>Within Sunyani: Free delivery</li>
+                <li>Orders over GH₵300: Free standard shipping nationwide</li>
+                <li>Orders under GH₵300: GH₵30 for standard shipping</li>
+                <li>Express shipping: Additional GH₵50</li>
               </ul>
             </div>
 

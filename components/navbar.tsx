@@ -58,9 +58,22 @@ export default function Navbar() {
   const isHomePage = pathname === "/"
 
   useEffect(() => {
-    // Navbar is always visible as part of the site layout
-    setIsVisible(true)
-  }, [])
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      if (currentScrollY > 100) {
+        setIsVisible(true)
+      } else {
+        setIsVisible(false)
+      }
+    }
+
+    if (isHomePage) {
+      window.addEventListener("scroll", handleScroll)
+      return () => window.removeEventListener("scroll", handleScroll)
+    } else {
+      setIsVisible(true)
+    }
+  }, [isHomePage])
 
   const NavbarContent = (
     <motion.header
@@ -68,7 +81,7 @@ export default function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className="fixed top-[2.5rem] left-0 right-0 z-50 w-full bg-background border-b border-border shadow-sm transition-all duration-300"
+      className="fixed top-3 left-0 right-0 z-50 mx-4 w-[calc(100%-2rem)] rounded-xl bg-background/90 backdrop-blur-sm border border-border shadow-md transition-all duration-300"
     >
       <div className="container flex items-center justify-between h-16 px-4 md:px-6">
         <Link href="/" className="flex items-center">
@@ -194,7 +207,7 @@ export default function Navbar() {
     </motion.header>
   )
 
-  return <AnimatePresence>{NavbarContent}</AnimatePresence>
+  return isHomePage ? <AnimatePresence>{isVisible && NavbarContent}</AnimatePresence> : NavbarContent
 }
 
 function HoverLink({
