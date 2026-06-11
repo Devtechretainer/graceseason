@@ -59,14 +59,20 @@ export default function SignupPage() {
 
     try {
       const { success, error, needsVerification } = await signup(
-        formData.firstName + " " + formData.lastName,
+        formData.firstName,
+        formData.lastName,
         formData.email,
         formData.password,
+        formData.phone,
       )
 
       if (success && needsVerification) {
+        // Only reached if email confirmation is still enabled in Supabase.
         router.push(`/verify-email?email=${encodeURIComponent(formData.email)}`)
-      } else if (!success) {
+      } else if (success) {
+        // No verification required — account is created and the user is logged in.
+        router.push("/account")
+      } else {
         setError(error || "Signup failed. Please try again.")
       }
     } catch (err) {

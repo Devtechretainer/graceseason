@@ -3,9 +3,10 @@
 import type React from "react"
 import { createContext, useContext, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { sendShopifyEmail, generateShopifyVerificationEmail } from "@/lib/shopify-email-service"
+import type { Session, User as SupabaseUser } from "@supabase/supabase-js"
+import { supabase } from "@/lib/supabase"
 
-// Define the shape of our user object
+// Shape of the user object consumed around the app (checkout, navbar, etc.)
 export interface User {
   id?: string
   email: string
@@ -15,16 +16,28 @@ export interface User {
   isVerified: boolean
 }
 
-// Define the shape of our auth context
+// Shape the account page expects (firstName / lastName / phone)
+export interface Customer {
+  id?: string
+  firstName: string
+  lastName: string
+  email: string
+  phone?: string
+}
+
 interface AuthContextType {
   user: User | null
+  customer: Customer | null
   isLoading: boolean
+  loading: boolean // alias used by some pages
   error: string | null
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
   signup: (
-    name: string,
+    firstName: string,
+    lastName: string,
     email: string,
     password: string,
+    phone?: string,
   ) => Promise<{ success: boolean; error?: string; needsVerification?: boolean }>
   logout: () => void
   forgotPassword: (email: string) => Promise<{ success: boolean; error?: string }>
@@ -33,10 +46,8 @@ interface AuthContextType {
   isAuthenticated: boolean
 }
 
-// Create the context with a default value
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-// Custom hook to use the auth context
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if (context === undefined) {
@@ -45,309 +56,200 @@ export const useAuth = () => {
   return context
 }
 
-// Mock database for storing users and verification codes
-const mockUsers: Record<
-  string,
-  {
-    id: string
-    name: string
-    email: string
-    password: string
-    isVerified: boolean
-    verificationCode?: string
-    verificationExpiry?: number
-  }
-> = {}
-
-// Generate random verification code
-const generateVerificationCode = (): string => {
-  return Math.random().toString(36).substring(2, 8).toUpperCase()
-}
-
-// Mock API calls for authentication
-const mockLogin = async (email: string, password: string): Promise<User> => {
-  // Simulate API call delay
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  const user = mockUsers[email.toLowerCase()]
-
-  if (!user || user.password !== password) {
-    throw new Error("Invalid credentials")
-  }
-
-  if (!user.isVerified) {
-    throw new Error("Please verify your email address before logging in")
-  }
-
+// Build our app-facing User object from a Supabase user/session.
+function mapUser(supabaseUser: SupabaseUser | null | undefined): User | null {
+  if (!supabaseUser) return null
+  const meta = supabaseUser.user_metadata || {}
+  const fullName =
+    meta.full_name ||
+    [meta.first_name, meta.last_name].filter(Boolean).join(" ") ||
+    supabaseUser.email ||
+    ""
   return {
-    id: user.id,
-    email: user.email,
-    name: user.name,
+    id: supabaseUser.id,
+    email: supabaseUser.email || "",
+    name: fullName,
+    picture: meta.avatar_url || meta.picture,
     isAuthenticated: true,
-    isVerified: true,
+    // Supabase sets email_confirmed_at once the email is verified.
+    isVerified: Boolean(supabaseUser.email_confirmed_at || supabaseUser.confirmed_at),
   }
 }
 
-const mockSignup = async (
-  name: string,
-  email: string,
-  password: string,
-): Promise<{ user: User; needsVerification: boolean }> => {
-  // Simulate API call delay
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  const emailLower = email.toLowerCase()
-
-  if (mockUsers[emailLower]) {
-    throw new Error("User already exists with this email")
+function mapCustomer(supabaseUser: SupabaseUser | null | undefined): Customer | null {
+  if (!supabaseUser) return null
+  const meta = supabaseUser.user_metadata || {}
+  let firstName = meta.first_name || ""
+  let lastName = meta.last_name || ""
+  if (!firstName && meta.full_name) {
+    const parts = String(meta.full_name).trim().split(" ")
+    firstName = parts[0] || ""
+    lastName = parts.slice(1).join(" ")
   }
-
-  const verificationCode = generateVerificationCode()
-  const verificationExpiry = Date.now() + 10 * 60 * 1000 // 10 minutes
-
-  // Create user
-  const newUser = {
-    id: Date.now().toString(),
-    name,
-    email: emailLower,
-    password,
-    isVerified: false,
-    verificationCode,
-    verificationExpiry,
-  }
-
-  mockUsers[emailLower] = newUser
-
-  // Send verification email using Shopify email service
-  try {
-    const emailData = {
-      to: email,
-      subject: "Verify your Grace Season account",
-      html: generateShopifyVerificationEmail(name, verificationCode),
-      customerName: name,
-    }
-
-    const emailSent = await sendShopifyEmail(emailData)
-
-    if (!emailSent) {
-      console.warn("Failed to send verification email, but user was created")
-    }
-  } catch (error) {
-    console.error("Error sending verification email:", error)
-    // Don't fail signup if email fails, just log the error
-  }
-
   return {
-    user: {
-      id: newUser.id,
-      email: newUser.email,
-      name: newUser.name,
-      isAuthenticated: false,
-      isVerified: false,
-    },
-    needsVerification: true,
+    id: supabaseUser.id,
+    firstName,
+    lastName,
+    email: supabaseUser.email || "",
+    phone: meta.phone || "",
   }
 }
 
-const mockVerifyEmail = async (email: string, code: string): Promise<User> => {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  const user = mockUsers[email.toLowerCase()]
-
-  if (!user) {
-    throw new Error("User not found")
-  }
-
-  if (!user.verificationCode || !user.verificationExpiry) {
-    throw new Error("No verification code found")
-  }
-
-  if (Date.now() > user.verificationExpiry) {
-    throw new Error("Verification code has expired")
-  }
-
-  if (user.verificationCode !== code.toUpperCase()) {
-    throw new Error("Invalid verification code")
-  }
-
-  // Mark user as verified
-  user.isVerified = true
-  user.verificationCode = undefined
-  user.verificationExpiry = undefined
-
-  return {
-    id: user.id,
-    email: user.email,
-    name: user.name,
-    isAuthenticated: true,
-    isVerified: true,
-  }
-}
-
-const mockResendVerificationCode = async (email: string): Promise<void> => {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  const user = mockUsers[email.toLowerCase()]
-
-  if (!user) {
-    throw new Error("User not found")
-  }
-
-  if (user.isVerified) {
-    throw new Error("User is already verified")
-  }
-
-  const verificationCode = generateVerificationCode()
-  const verificationExpiry = Date.now() + 10 * 60 * 1000 // 10 minutes
-
-  user.verificationCode = verificationCode
-  user.verificationExpiry = verificationExpiry
-
-  // Send verification email using Shopify email service
-  const emailData = {
-    to: user.email,
-    subject: "Verify your Akaal Clothing account",
-    html: generateShopifyVerificationEmail(user.name, verificationCode),
-    customerName: user.name,
-  }
-
-  const emailSent = await sendShopifyEmail(emailData)
-
-  if (!emailSent) {
-    throw new Error("Failed to send verification email")
-  }
-}
-
-const mockForgotPassword = async (email: string): Promise<void> => {
-  // Simulate API call delay
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  // In a real app, you would send a password reset email
-  if (!email.includes("@")) {
-    throw new Error("Invalid email address")
-  }
-}
-
-// Provider component that wraps your app and makes auth object available to any child component that calls useAuth()
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
-  // Check if user is already logged in
+  // Load the current session on mount and subscribe to auth changes.
   useEffect(() => {
-    const checkLoggedIn = () => {
-      try {
-        const storedUser = localStorage.getItem("user")
-        if (storedUser) {
-          const parsedUser = JSON.parse(storedUser)
-          // Only set user if they are verified
-          if (parsedUser.isVerified) {
-            setUser(parsedUser)
-          }
-        }
-      } catch (err) {
-        console.error("Error checking authentication status:", err)
-      } finally {
-        setIsLoading(false)
-      }
-    }
+    let mounted = true
 
-    checkLoggedIn()
+    supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return
+      setSession(data.session)
+      setIsLoading(false)
+    })
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession)
+      setIsLoading(false)
+    })
+
+    return () => {
+      mounted = false
+      subscription.unsubscribe()
+    }
   }, [])
 
+  const supabaseUser = session?.user ?? null
+  // A verified, signed-in user has both a session and a confirmed email.
+  const isVerified = Boolean(supabaseUser?.email_confirmed_at || supabaseUser?.confirmed_at)
+  const user = isVerified ? mapUser(supabaseUser) : null
+  const customer = isVerified ? mapCustomer(supabaseUser) : null
+
   const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
-    setIsLoading(true)
     setError(null)
-    try {
-      const loggedInUser = await mockLogin(email, password)
-      setUser(loggedInUser)
-      localStorage.setItem("user", JSON.stringify(loggedInUser))
-      return { success: true }
-    } catch (err: any) {
-      setError(err.message || "Failed to login")
-      return { success: false, error: err.message || "Failed to login" }
-    } finally {
-      setIsLoading(false)
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    })
+
+    if (signInError) {
+      const message =
+        signInError.message === "Email not confirmed"
+          ? "Please verify your email address before logging in."
+          : signInError.message || "Failed to login"
+      setError(message)
+      return { success: false, error: message }
     }
+
+    return { success: true }
   }
 
   const signup = async (
-    name: string,
+    firstName: string,
+    lastName: string,
     email: string,
     password: string,
+    phone?: string,
   ): Promise<{ success: boolean; error?: string; needsVerification?: boolean }> => {
-    setIsLoading(true)
     setError(null)
-    try {
-      const { user: newUser, needsVerification } = await mockSignup(name, email, password)
-      // Don't set user in state until they verify their email
-      return { success: true, needsVerification }
-    } catch (err: any) {
-      setError(err.message || "Failed to sign up")
-      return { success: false, error: err.message || "Failed to sign up" }
-    } finally {
-      setIsLoading(false)
+
+    // Create the account server-side, already confirmed (no email verification).
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ firstName, lastName, email: email.trim(), password, phone }),
+    })
+    const result = await res.json().catch(() => ({}))
+
+    if (!res.ok || !result.success) {
+      const message = result.error || "Failed to sign up"
+      setError(message)
+      return { success: false, error: message }
     }
+
+    // Log them straight in — the account is ready to use immediately.
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    })
+
+    if (signInError) {
+      const message = "Account created — please log in."
+      setError(message)
+      return { success: false, error: message }
+    }
+
+    return { success: true, needsVerification: false }
   }
 
   const verifyEmail = async (email: string, code: string): Promise<{ success: boolean; error?: string }> => {
-    setIsLoading(true)
     setError(null)
-    try {
-      const verifiedUser = await mockVerifyEmail(email, code)
-      setUser(verifiedUser)
-      localStorage.setItem("user", JSON.stringify(verifiedUser))
-      return { success: true }
-    } catch (err: any) {
-      setError(err.message || "Failed to verify email")
-      return { success: false, error: err.message || "Failed to verify email" }
-    } finally {
-      setIsLoading(false)
+    const { error: verifyError } = await supabase.auth.verifyOtp({
+      email: email.trim(),
+      token: code.trim(),
+      type: "signup",
+    })
+
+    if (verifyError) {
+      const message = verifyError.message || "Failed to verify email"
+      setError(message)
+      return { success: false, error: message }
     }
+
+    // onAuthStateChange will pick up the new session automatically.
+    return { success: true }
   }
 
   const resendVerificationCode = async (email: string): Promise<{ success: boolean; error?: string }> => {
-    setIsLoading(true)
     setError(null)
-    try {
-      await mockResendVerificationCode(email)
-      return { success: true }
-    } catch (err: any) {
-      setError(err.message || "Failed to resend verification code")
-      return { success: false, error: err.message || "Failed to resend verification code" }
-    } finally {
-      setIsLoading(false)
+    const { error: resendError } = await supabase.auth.resend({
+      type: "signup",
+      email: email.trim(),
+    })
+
+    if (resendError) {
+      const message = resendError.message || "Failed to resend verification code"
+      setError(message)
+      return { success: false, error: message }
     }
+
+    return { success: true }
   }
 
-  const logout = () => {
-    setUser(null)
-    localStorage.removeItem("user")
+  const logout = async () => {
+    await supabase.auth.signOut()
+    setSession(null)
     router.push("/")
   }
 
   const forgotPassword = async (email: string): Promise<{ success: boolean; error?: string }> => {
-    setIsLoading(true)
     setError(null)
-    try {
-      await mockForgotPassword(email)
-      return { success: true }
-    } catch (err: any) {
-      setError(err.message || "Failed to process password reset")
-      return { success: false, error: err.message || "Failed to process password reset" }
-    } finally {
-      setIsLoading(false)
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo:
+        typeof window !== "undefined" ? `${window.location.origin}/reset-password` : undefined,
+    })
+
+    if (resetError) {
+      const message = resetError.message || "Failed to process password reset"
+      setError(message)
+      return { success: false, error: message }
     }
+
+    return { success: true }
   }
 
-  // Make the auth object available to any child component that calls useAuth()
   return (
     <AuthContext.Provider
       value={{
         user,
+        customer,
         isLoading,
+        loading: isLoading,
         error,
         login,
         signup,
@@ -355,7 +257,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         forgotPassword,
         verifyEmail,
         resendVerificationCode,
-        isAuthenticated: !!user && user.isVerified,
+        isAuthenticated: isVerified,
       }}
     >
       {children}
